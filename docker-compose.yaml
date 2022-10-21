@@ -1,8 +1,0 @@
-version: '1.0'
-services:
-  projet-pi:
-    build: ./docker-tf
-    ports:
-      - 8888:8888
-    volumes:
-      - ./docker-tf:/docker-tf
