@@ -1,6 +1,6 @@
 ## Readme IA :
 
-#Docker
+# Docker
 **Pour la mise en place du docker sur votre ordinateur depuis un terminal de commande :**
 - Se placer dans le dossier où se trouve le dockerfile
 - Exécuter la commande "build -t _nom-image_ ." où nom-image est le nom que vous souhaitez donner au docker.
