@@ -18,13 +18,10 @@ CHEMIN_MODELE = './modeles/mel-cnn'  #Chemin du modèle que l'on souhaite tester
 fs = 16000  # Fréquence d'echantillonage (en Hz)
 secondes = 3  # Durée de l'enregistrement
 
-
+print(" You will haave to say a word")
+print("Please say a word in the following list:")
+print("'yes','no','up','down','right','left','stop','go','on','off'")
 print("Enregistrement dans 3")
-sleep(1)
-print("2")
-sleep(1)
-print("1")
-sleep(1)
 print('go!')
 enregistrement = sd.rec(int(secondes * fs), samplerate=fs, channels=1)
 sd.wait()  # Wait until recording is finished
@@ -59,7 +56,9 @@ test = np.array(tfio.audio.dbscale(mel_spectrogram, top_db=80))[...,np.newaxis]
 # Prediction
 index = np.argmax(model.predict(np.array([test])))
 
+print("\n")
 print("Le mot retranscrit est ---> " + (MOTS[index]).upper() + " <---")
 print("Si ce n'est pas la bonne retranscription, veuillez revérifier le fichier audio, l'erreur vient probablement de "
       "l'enregistrement ")
+print("\n")
 
