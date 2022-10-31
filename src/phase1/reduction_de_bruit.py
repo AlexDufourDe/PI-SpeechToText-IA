@@ -8,7 +8,7 @@ import numpy as np
 
 
 #Path to file
-f_name = "up_bruit.wav"
+f_name = "../../audio/mal/yes_e_down.wav"
 samplerate, data = wavfile.read(f_name)
 
 
@@ -37,9 +37,10 @@ plt.title("Signal")
 plt.subplot(212)
 plt.plot(range(len(filtered_sg)), filtered_sg)
 plt.title("Filtered Signal")
-plt.show()
+#plt.show()
 
-print (data)
-print(filtered_sg)
 
-write('up_bruit_filtre.wav', fps, filtered_sg.astype(np.int16))
+
+nom=f_name.split('/')[-1]
+nom_f=nom.split('.')[0]
+write("../../audio/filtre/"+nom+"_filtre.wav", fps, filtered_sg.astype(np.int16))
