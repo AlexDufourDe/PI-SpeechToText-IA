@@ -6,10 +6,13 @@ Pour enregistrer le modèle entrainé, il suffit de décommenter les 3 dernière
 import numpy as np
 import tensorflow as tf
 import os
+import datetime
 
 NB_MOTS = 10 # Changer en fonction du nombre de mots du corpus
 CHEMIN_DONNEES= './donnees_traitees' # Dossier contenant les données pré-traitées
 CHEMIN_SAUVEGARDE_MODELE = './modeles' # Dossier de sauvegarde des modèles entrainés
+NOM_MODEL='mel-cnn'
+NB_EPOCH=8
 
 
 
@@ -47,12 +50,20 @@ model.compile(
 )
 
 # Entrainement du modèle
-history = model.fit(x_train, y_train, validation_split= 0.15, epochs=8)
+history = model.fit(x_train, y_train, validation_split= 0.15, epochs=NB_EPOCH)
 
 # Evaluation du modèle
-model.evaluate(x_test, y_test)
+acc=model.evaluate(x_test, y_test)
+
+version = open("version_model.txt", "a")
+version.write("\n")
+version.write(str(datetime.datetime.today()))
+version.write("  "+NOM_MODEL+ " entrainé sur "+CHEMIN_DONNEES+"\n")
+version.write("loss : "+str(acc[0])+", accuracy : "+str(acc[1]))
+version.write("epoch :"+ NB_EPOCH)
+version.close()
 
 # Sauvegarde du modèle entraîné (decommenter la ligne si le modèle est satisfaisant)
-"""if not os.path.exists(CHEMIN_SAUVEGARDE_MODELE):
+if not os.path.exists(CHEMIN_SAUVEGARDE_MODELE):
     os.makedirs(CHEMIN_SAUVEGARDE_MODELE)
-model.save(CHEMIN_SAUVEGARDE_MODELE+'/mel-cnn')  """
+model.save(CHEMIN_SAUVEGARDE_MODELE+"/"+NOM_MODEL)
