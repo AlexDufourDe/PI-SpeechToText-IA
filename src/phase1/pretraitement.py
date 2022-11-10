@@ -12,51 +12,55 @@ from sklearn.model_selection import train_test_split
 from time import time
 import os
 
+#url="hub://activeloop/speech-commands-train"
+#chemin= './donnees_traitees'
 
-# Ajouter les mots souhaités, et l'index correspondant. Les mots disponibles sont donnés en bas de page
-MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
-index_mots = [7,27,15,25,18,22,5,2,29,10]
+def download_data(url,chemin):
 
-CHEMIN_SAUVEGARDE = './donnees_traitees'   #Choisir le dossier de sauvegarde des données
+    # Ajouter les mots souhaités, et l'index correspondant. Les mots disponibles sont donnés en bas de page
+    MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
+    index_mots = [7,27,15,25,18,22,5,2,29,10]
+
+    CHEMIN_SAUVEGARDE =chemin    #Choisir le dossier de sauvegarde des données
+
+    
+    data = deeplake.load(url)
+    X = []
+    Y = []
+
+    print("Importation des données. Cela peut prendre plus d'une heure")
+    debut = time()
+    for i in range(64726):
+        index = data.labels[i].numpy()[0]
+        if index in index_mots :
+            wav = data.audios[i].numpy()
+            if wav.shape != (16000, 1):
+                continue
+            wav = wav.reshape(16000)
+            #Début pré-traitement : changer les lignes suivantes pour essayer d'autres prétraitements
+            fade = tfio.audio.fade(wav, fade_in=1000, fade_out=2000, mode="logarithmic")
+            spectrogram = tfio.audio.spectrogram(fade, nfft=1024, window=1024, stride=256)
+            mel_spectrogram = tfio.audio.melscale(spectrogram, rate=16000, mels=128, fmin=0, fmax=8000)
+            dbscale_mel_spectrogram = tfio.audio.dbscale(mel_spectrogram, top_db=80)
+            #Fin pré-traitement
+            X.append(dbscale_mel_spectrogram)
+            Y.append(index_mots.index(index))
+    print(str(len(Y)) + ' elements on étés importés en ' + str(time()-debut))
 
 
-data = deeplake.load("hub://activeloop/speech-commands-train")
-X = []
-Y = []
+    print("Découpage en données d'entraitement et test, et sauvegarde")
+    # Les données sont mélangées et découpées en une partie pour l'entrainement et une seconde pour le test.
+    train_data, test_data, train_labels, test_labels = train_test_split(np.array(X), np.array(Y), test_size=0.3, random_state=83)
 
-print("Importation des données. Cela peut prendre plus d'une heure")
-debut = time()
-for i in range(64726):
-    index = data.labels[i].numpy()[0]
-    if index in index_mots :
-        wav = data.audios[i].numpy()
-        if wav.shape != (16000, 1):
-            continue
-        wav = wav.reshape(16000)
-        #Début pré-traitement : changer les lignes suivantes pour essayer d'autres prétraitements
-        fade = tfio.audio.fade(wav, fade_in=1000, fade_out=2000, mode="logarithmic")
-        spectrogram = tfio.audio.spectrogram(fade, nfft=1024, window=1024, stride=256)
-        mel_spectrogram = tfio.audio.melscale(spectrogram, rate=16000, mels=128, fmin=0, fmax=8000)
-        dbscale_mel_spectrogram = tfio.audio.dbscale(mel_spectrogram, top_db=80)
-        #Fin pré-traitement
-        X.append(dbscale_mel_spectrogram)
-        Y.append(index_mots.index(index))
-print(str(len(Y)) + ' elements on étés importés en ' + str(time()-debut))
-
-
-print("Découpage en données d'entraitement et test, et sauvegarde")
-# Les données sont mélangées et découpées en une partie pour l'entrainement et une seconde pour le test.
-train_data, test_data, train_labels, test_labels = train_test_split(np.array(X), np.array(Y), test_size=0.3, random_state=83)
-
-# Les tableaux numpy sont sauvegardés pour une utilisation rapide.
-CHEMIN_SAUVEGARDE = './donnees_traitees'
-if not os.path.exists(CHEMIN_SAUVEGARDE):
-    os.makedirs(CHEMIN_SAUVEGARDE)
-np.save(CHEMIN_SAUVEGARDE+'/train_data.npy', train_data)
-np.save(CHEMIN_SAUVEGARDE+'/train_labels.npy', train_labels)
-np.save(CHEMIN_SAUVEGARDE+'/test_data.npy', test_data)
-np.save(CHEMIN_SAUVEGARDE+'/test_labels.npy', test_labels)
-print("Données enregistrées dans le dossier " + CHEMIN_SAUVEGARDE)
+    # Les tableaux numpy sont sauvegardés pour une utilisation rapide.
+    CHEMIN_SAUVEGARDE = './donnees_traitees'
+    if not os.path.exists(CHEMIN_SAUVEGARDE):
+        os.makedirs(CHEMIN_SAUVEGARDE)
+    np.save(CHEMIN_SAUVEGARDE+'/train_data.npy', train_data)
+    np.save(CHEMIN_SAUVEGARDE+'/train_labels.npy', train_labels)
+    np.save(CHEMIN_SAUVEGARDE+'/test_data.npy', test_data)
+    np.save(CHEMIN_SAUVEGARDE+'/test_labels.npy', test_labels)
+    print("Données enregistrées dans le dossier " + CHEMIN_SAUVEGARDE)
 
 """
 Dictionnaire des mots
