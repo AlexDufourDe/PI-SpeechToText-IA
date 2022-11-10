@@ -21,7 +21,7 @@ secondes = 3  # Durée de l'enregistrement
 print(" You will haave to say a word")
 print("Please say a word in the following list:")
 print("'yes','no','up','down','right','left','stop','go','on','off'")
-print("Enregistrement dans 3")
+print("Enregistrement:")
 print('go!')
 enregistrement = sd.rec(int(secondes * fs), samplerate=fs, channels=1)
 sd.wait()  # Wait until recording is finished

@@ -9,7 +9,7 @@ from affichage import affichage
 folder_path='../../audio/'
 
 
-CHEMIN_MODELE = './modeles/mel-cnn'  #Chemin du modèle que l'on souhaite tester
+CHEMIN_MODELE = './modeles/mel-cnn2'  #Chemin du modèle que l'on souhaite tester
 # Importation du mpdèle entrainé
 model = tf.keras.models.load_model(CHEMIN_MODELE)
 comp=[]
