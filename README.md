@@ -1,12 +1,92 @@
-## Readme IA :
+# Readme IA :
+Description de l'utilisation du docker, de l'organisation du git, 
 
-# Docker
-**Pour la mise en place du docker sur votre ordinateur depuis un terminal de commande :**
-- Se placer dans le dossier où se trouve le dockerfile
-- Exécuter la commande "build -t _nom-image_ ." où nom-image est le nom que vous souhaitez donner au docker.
+## Organisation du git
 
-**Pour exécuter le code dans le docker depuis Visual Studio**
-- Cliquer sur le bouton vert tout en bas à gauche de la fenêtre VS Code et sélectionner "_Reopen in Container_"
-- Cliquer ensuite sur "_From Dockerfile_" (Qui correspond au dockerfile du dossier courant)
-- Réinstaller l'extension python dans VS Code (Container cette fois-ci) afin d'avoir les colorations de Visual pour python.
-- La compilation des fichiers pythons désirés se fait alors normalement depuis le terminal VSCode.
+Le git est séparer en fonction des phase du projet.
+Tous les fichiers hors ressource et paramétrage sont placé dans le dossier src.
+
+### Phase 1
+
+#### dossiers
+./donnees_traitees :
+contient toutes les données qui on été préparer pour l'entrainement du modèle.
+
+./modeles : 
+Contient les dossier avec les différents modele. Chacun a un dossier.
+
+#### fichiers
+
+
+##### Préparation des données
+
+pretraitement.py : télécharge, redimmensionne et transforme en spectogramme de mel les données du dataset : "hub://activeloop/speech-commands-train"
+
+reduction_de_bruit.py : affiche un filtre de réduction de bruit à un fichier donné ( EN COURS)
+
+##### Construction du modèle
+
+modele.py : Construit et entraine le modèle avec les données prétraitées.
+
+version_model.txt : contient les versions et la justesse du modele
+##### Test manuel du modèle
+
+main.py : 
+applique le modèle a tous les audios du repertoire \audio
+
+affichage.py : 
+fait l'affichage de la table récapitulative de l'analyse des audio
+
+test_vocal.py : fait un enregistrement de 3s et analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom output.
+
+test_fichier.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
+
+model_fct.py : fonction pour appliqué un model a un tableau fournit en entrée.
+
+
+
+
+## Organisation du git
+
+Le git est séparer en fonction des phase du projet.
+Tous les fichiers hors ressource et paramétrage sont placé dans le dossier src.
+
+### Phase 1
+
+#### dossiers
+./donnees_traitees :
+contient toutes les données qui on été préparer pour l'entrainement du modèle.
+
+./modeles : 
+Contient les dossier avec les différents modele. Chacun a un dossier.
+
+#### fichiers
+
+
+##### Préparation des données
+
+pretraitement.py : télécharge, redimmensionne et transforme en spectogramme de mel les données du dataset : "hub://activeloop/speech-commands-train"
+
+reduction_de_bruit.py : affiche un filtre de réduction de bruit à un fichier donné ( EN COURS)
+
+##### Construction du modèle
+
+modele.py : Construit et entraine le modèle avec les données prétraitées.
+
+version_model.txt : contient les versions et la justesse du modele
+##### Test manuel du modèle
+
+main.py : 
+applique le modèle a tous les audios du repertoire \audio
+
+affichage.py : 
+fait l'affichage de la table récapitulative de l'analyse des audio
+
+test_vocal.py : fait un enregistrement de 3s et analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom output.
+
+test_fichier.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
+
+model_fct.py : fonction pour appliqué un model a un tableau fournit en entrée.
+
+
+

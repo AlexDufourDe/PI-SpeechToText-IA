@@ -1,0 +1,5 @@
+VERSION MODELE:
+
+2022-11-10 15:39:27.964521  mel-cnn entraine sur ./donnees_traitees
+loss :0.3527715504169464, accuracy : 0.8919299244880676
+epoch : 8

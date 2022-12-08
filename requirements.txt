@@ -1,2 +1,7 @@
 pandas
 matplotlib
+deeplake
+deeplake[audio]
+tensorflow_io
+sklearn
+os
