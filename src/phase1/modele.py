@@ -8,13 +8,17 @@ import tensorflow as tf
 import os
 import datetime
 
+from pretraitement import download_data 
+
+DATA="hub://activeloop/speech-commands-train"
 NB_MOTS = 10 # Changer en fonction du nombre de mots du corpus
 CHEMIN_DONNEES= './donnees_traitees' # Dossier contenant les données pré-traitées
 CHEMIN_SAUVEGARDE_MODELE = './modeles' # Dossier de sauvegarde des modèles entrainés
 NOM_MODEL='mel-cnn'
 NB_EPOCH=8
 
-
+if not os.path.exists(CHEMIN_DONNEES):
+    download_data(DATA,CHEMIN_DONNEES)
 
 
 # Importation des données
