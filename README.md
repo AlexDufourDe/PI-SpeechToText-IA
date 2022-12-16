@@ -16,6 +16,8 @@ contient toutes les données qui on été préparer pour l'entrainement du modè
 ./modeles : 
 Contient les dossier avec les différents modele. Chacun a un dossier.
 
+./conversion_tflite contient les exemples de conversion de modèle avec "quantization" (réduction de la précision des nombre pour un modèle plus léger et plus rapide mais moins précis)
+
 #### fichiers
 
 
@@ -43,6 +45,23 @@ test_vocal.py : fait un enregistrement de 3s et analyse cet audio avec le modèl
 test_fichier.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
 
 model_fct.py : fonction pour appliqué un model a un tableau fournit en entrée.
+
+##### Conversion en .tflite
+
+post_quantization.py : Conversion du modèle phase1 en appliquant une "quantization" après l'entrainement. Les chiffres passent de int32 à int8
+
+q_aware_training.py : Le modèle est ré-entrainé (fine-tuned) pour être préparé à la "quantization". 
+
+
+### Phase 2 
+
+Pour la phase 2, nous pourrons créer des dossiers différents en fonction des modèles.
+
+#### wav2vec 
+
+pretrained_test.py: Importation d'un modèle français et possibilité de tester en s'enregistrant.
+
+
 
 
 
