@@ -45,4 +45,17 @@ test_fichier.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
 model_fct.py : fonction pour appliqué un model a un tableau fournit en entrée.
 
 
+### Phase 2
+
+
+Les données sont télécharge dans la banque de données mozilla:
+https://commonvoice.mozilla.org/fr/datasets
+
+
+#### dossiers
+
+
+#### fichiers
+pretraitement.py: telecharge les données depuis la base de données commonvoice de mozilla. On va ainsi redimensionner les audio, les transformés en spectogramme de mel et les enregistrés dans le dossier "mozilla_common_voice_pretraitee" sous forme de fichier numpy.
+
 
