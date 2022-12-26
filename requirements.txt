@@ -4,4 +4,4 @@ deeplake
 deeplake[audio]
 tensorflow
 tensorflow_io
-sklearn
+scikit-learn

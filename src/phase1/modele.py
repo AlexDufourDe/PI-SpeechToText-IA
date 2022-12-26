@@ -64,7 +64,7 @@ version.write("\n")
 version.write(str(datetime.datetime.today()))
 version.write("  "+NOM_MODEL+ " entrainé sur "+CHEMIN_DONNEES+"\n")
 version.write("loss : "+str(acc[0])+", accuracy : "+str(acc[1]))
-version.write("epoch :"+ NB_EPOCH)
+version.write("epoch :"+ str(NB_EPOCH))
 version.close()
 
 # Sauvegarde du modèle entraîné (decommenter la ligne si le modèle est satisfaisant)
