@@ -57,5 +57,5 @@ https://commonvoice.mozilla.org/fr/datasets
 
 #### fichiers
 pretraitement.py: telecharge les données depuis la base de données commonvoice de mozilla. On va ainsi redimensionner les audio, les transformés en spectogramme de mel et les enregistrés dans le dossier "mozilla_common_voice_pretraitee" sous forme de fichier numpy.
-
+La base de données comporte 96 audio et pese 46 mo
 
