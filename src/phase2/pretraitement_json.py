@@ -10,6 +10,9 @@ import json
 import wave
 import urllib.request 
 import httplib2
+import requests
+import wget
+from scipy.io import wavfile
 
 login("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")
 """ Ce fichier fait le prétraitement des données pour la phase 2 c'est à dire des phrases completes"""
@@ -30,8 +33,6 @@ def data_download(data_chemin,save_chemin):
     data_json = json.loads(jsonContent)
 
     #transcript
-    
-
     n=len(data_json['rows'])
     X = []
     Y = []
@@ -39,34 +40,19 @@ def data_download(data_chemin,save_chemin):
     debut = time()
     sampling_rate=data_json['features'][2]['type']['sampling_rate']
     for i in range(n):
-        if (i//10):
-            print(i)
         Y.append(data_json['rows'][i]['row']['sentence'])
 
-
         url=data_json['rows'][i]['row']['audio'][1]['src']
-        audio=load_dataset(url).numpy()
-        # h = httplib2.Http(".cache")
-        # resp, content = h.request(data_json['rows'][i]['row']['audio'][1]['src'], method="GET")
-        # # http=url.urlopen(data_json['rows'][i]['row']['audio'][1]['src'])
-        # # print(http)
-        # vector_bytes_str = str(content)
-        # vector_bytes_str_enc = vector_bytes_str.encode()
-        # bytes_np_dec = vector_bytes_str_enc.decode('unicode-escape').encode('ISO-8859-1')[2:-1]
-        # wav=np.frombuffer(bytes_np_dec, dtype=np.float64)
-
-
-
+        response = wget.download(url,"mozilla_commonvoice/audio_"+str(i)+".wav")
+        samplerate, audio= wavfile.read("mozilla_commonvoice/audio_"+str(i)+".wav")
 
         #pré-traitement
-        fade = tfio.audio.fade(wav, fade_in=1000, fade_out=2000, mode="logarithmic")
+        fade = tfio.audio.fade(audio, fade_in=1000, fade_out=2000, mode="logarithmic")
         spectrogram = tfio.audio.spectrogram(fade, nfft=1024, window=1024, stride=256)
         mel_spectrogram = tfio.audio.melscale(spectrogram, rate=sampling_rate, mels=128, fmin=0, fmax=8000)
         dbscale_mel_spectrogram = tfio.audio.dbscale(mel_spectrogram, top_db=80)
         X.append(dbscale_mel_spectrogram)
 
-
-        
     print(str(len(Y)) + ' elements on étés importés en ' + str(time()-debut))
 
 
