@@ -5,7 +5,17 @@ from scipy.io import wavfile
 
 MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
 
+
+
 def prediction(data,model):
+    """ !prediction 
+    give the transcript of the audio given in parameter
+    @param data  numpy array of the value of the audio to translate
+    @param model  model used to predicted
+
+    @return string transcript of the audio
+
+    """
     scaled = np.int16(data* 32767).reshape(16000) # Remise à l'echelle de l'audio
         
     # Ici, on réapplique le mêmes pré-traitements que pour les données d'entraînements.

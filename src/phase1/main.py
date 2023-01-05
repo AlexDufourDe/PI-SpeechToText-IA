@@ -1,3 +1,7 @@
+""" 
+This file lauch the prediction of all of the audio  in the repository audio and print the result
+"""
+
 import os 
 import tensorflow as tf
 from scipy.io import wavfile
@@ -10,6 +14,7 @@ folder_path='../../audio/'
 
 
 CHEMIN_MODELE = './modeles/mel-cnn2'  #Chemin du modèle que l'on souhaite tester
+
 # Importation du mpdèle entrainé
 model = tf.keras.models.load_model(CHEMIN_MODELE)
 comp=[]

@@ -1,8 +1,9 @@
 """
 Ce fichier permet à l'utilisateur de tester le modèle à partir d'un fichier .wav.
 Le modèle fait alors son estimation, et affiche le mot retranscrit.
-Pour faciliter l'utilisation, l'enregistrement est fait sur 3 secondes, qui sera ensuite réduit à une fenetre de 1 seconde pour le modèle
-Penser à verifier le fichier audio en sortie si l'estimation du modèle n'est pas correcte.
+
+This file can test the model usion g a .wav file and print the result of the prediction .
+
 """
 
 

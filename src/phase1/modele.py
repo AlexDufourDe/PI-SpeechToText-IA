@@ -1,6 +1,9 @@
 """"
-Dans ce fichier, le modèle est défini et entrainé avec les données pré-traitées.
-Pour enregistrer le modèle entrainé, il suffit de décommenter les 3 dernières lignes du fichier
+Dans ce fichier, le modèle est défini et entrainé avec les données pré-traitées sur 10 mots.
+Le model est ensuite sauvegarder et la version du modele avec la loss et le nombre d'epoch est ensuite sauvegarder dans le fichier version_model.txt
+
+This file defined and  train the model using the pre-processed data on 10 words.
+then the model is save. The version, the loss and the number of epoch is save in the file version_model.txt
 """
 
 import numpy as np
@@ -67,7 +70,6 @@ version.write("loss : "+str(acc[0])+", accuracy : "+str(acc[1]))
 version.write("epoch :"+ str(NB_EPOCH))
 version.close()
 
-# Sauvegarde du modèle entraîné (decommenter la ligne si le modèle est satisfaisant)
 if not os.path.exists(CHEMIN_SAUVEGARDE_MODELE):
     os.makedirs(CHEMIN_SAUVEGARDE_MODELE)
 model.save(CHEMIN_SAUVEGARDE_MODELE+"/"+NOM_MODEL)

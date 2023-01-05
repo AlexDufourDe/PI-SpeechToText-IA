@@ -3,6 +3,11 @@ Ce fichier permet l'importation et le pré-traitement de données audio de mots 
 Par défaut, un corpus de 10 mots est utilisé. Il est possible de modifier les paramètres pour en importer jusqu'a 30.
 Le pré-traitement par défaut est la transformation en spectogramme mel.
 Les données pré-traitées sont sauvegardées dans deux fichiers, un pour l'entrainement et l'autre pour le test.
+
+This file download and pre-process the data. It is audio of simple word.
+The corpus is composed of 10 word. it is possible to go up to 30.
+The default preprocessing is mel spectogram.
+The pre- precessed data are saved in two file, one foe the training of the model and the other for the testing.
 """
 
 import deeplake

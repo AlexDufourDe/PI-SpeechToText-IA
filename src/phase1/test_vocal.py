@@ -3,6 +3,12 @@ Ce fichier permet à l'utilisateur de tester le modèle par lui même, en pronon
 Le modèle fait alors son estimation, et affiche le mot retranscrit.
 Pour faciliter l'utilisation, l'enregistrement est fait sur 3 secondes, qui sera ensuite réduit à une fenetre de 1 seconde pour le modèle
 Penser à verifier le fichier audio en sortie si l'estimation du modèle n'est pas correcte.
+
+
+This file test the model. The user has to voice a word after the signal. 
+Then the model will predict the word and print the result.
+To make it easier, the reacord last 3 seconds and is reduce to a 1 second record after. 
+The audio is save to allow  post checking.
 """
 
 import sounddevice as sd
@@ -55,6 +61,7 @@ test = np.array(tfio.audio.dbscale(mel_spectrogram, top_db=80))[...,np.newaxis]
 
 # Prediction
 index = np.argmax(model.predict(np.array([test])))
+print( f"index :{type(index)}; test {type(test)}")
 
 print("\n")
 print("Le mot retranscrit est ---> " + (MOTS[index]).upper() + " <---")
