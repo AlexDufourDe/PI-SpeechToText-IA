@@ -1,3 +1,5 @@
-./donnees_traitees
+/donnees_traitees
 ../../.devcontainer/
 __pycache__/
+src/phase2/mozilla_common_voice_pretraitee/
+src/phase2/mozilla_commonvoice/
