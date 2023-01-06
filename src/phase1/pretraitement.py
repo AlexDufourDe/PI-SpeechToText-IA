@@ -58,7 +58,6 @@ def download_data(url,chemin):
     train_data, test_data, train_labels, test_labels = train_test_split(np.array(X), np.array(Y), test_size=0.3, random_state=83)
 
     # Les tableaux numpy sont sauvegardés pour une utilisation rapide.
-    CHEMIN_SAUVEGARDE = './donnees_traitees'
     if not os.path.exists(CHEMIN_SAUVEGARDE):
         os.makedirs(CHEMIN_SAUVEGARDE)
     np.save(CHEMIN_SAUVEGARDE+'/train_data.npy', train_data)
@@ -108,3 +107,4 @@ index 30: Seven ---Debut 62350 fin 64726
 
 
 
+download_data("hub://activeloop/speech-commands-train",'./donnees_traitees')
