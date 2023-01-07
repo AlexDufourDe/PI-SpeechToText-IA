@@ -1,20 +1,14 @@
 import numpy as np 
 from time import time
-import deeplake
-from datasets import load_dataset
 import tensorflow_io as tfio
 from sklearn.model_selection import train_test_split
 import os
 from huggingface_hub import login
 import json
-import wave
-import urllib.request 
-import httplib2
-import requests
+
 import wget
 from scipy.io import wavfile
 
-login("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")
 """ Ce fichier fait le prétraitement des données pour la phase 2 c'est à dire des phrases completes"""
 # data_chemin="mozilla-foundation/common_voice_9_0
 # description des données :https://huggingface.co/datasets/mozilla-foundation/common_voice_7_0
@@ -25,6 +19,12 @@ def data_download(data_chemin,save_chemin):
 
     # Parametres
     chemin_sauvegarde =  save_chemin
+    if not os.path.exists('mozilla_commonvoice'):
+        os.makedirs('mozilla_commonvoice')
+
+    if not os.path.exists(chemin_sauvegarde):
+        os.makedirs(chemin_sauvegarde)
+    
     
 
     # Lecture json
@@ -61,9 +61,6 @@ def data_download(data_chemin,save_chemin):
     train_data, test_data, train_labels, test_labels = train_test_split(np.array(X), np.array(Y), test_size=0.3, random_state=83)
 
     # Les tableaux numpy sont sauvegardés pour une utilisation rapide.
-    
-    if not os.path.exists(chemin_sauvegarde):
-        os.makedirs(chemin_sauvegarde)
 
     np.save(chemin_sauvegarde+'/train_data.npy', train_data)
     np.save(chemin_sauvegarde+'/train_labels.npy', train_labels)
