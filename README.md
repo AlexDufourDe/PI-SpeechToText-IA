@@ -1,6 +1,6 @@
 # SPEECH TO TEXT : l'art de retranscrire la parole
 
-Ce README concerne la branche "phase_1". Elle implemente un modèle de commande vocale.
+Ce README concerne la branche "phase_1_extra". Elle implemente un modèle de commande vocale comme la branche phase_1 mais pour 30 mots.
 On peut télécharger et prétraiter les données ainsi que entrainer le modèle et réaliser des prédictions.
 
 ## Prerequis
@@ -20,7 +20,7 @@ Ces installations sont déjà présentes dans le docker fournit avec le projet.
 Les données d'entrainement proviennent de "ActiveLoop" dans le dataset "speech-commands-train".
 Elles peuvent etre téléchargée et enregistrée après prétraitement en lançant le scipt pretraitenement.py et en donnant en argument le nom du dossier où stocker les données. La commande est la suivante
 ```
-python3 src/phase1/pretraitement.py NOM_DU_DOSSIER
+python3 src/phase1_extra/pretraitement_extra.py NOM_DU_DOSSIER
 ```
 Cette étape est facultative. En effet, si lors de l'entrainement du modèle, les données n'ont pas été téléchargé ce derniers va lancer le script de prétraitement. Il faudrat ainsi prendre en compte la durée de téléchargement en plus du temps d'entrainement du modèle.
 
@@ -31,11 +31,11 @@ Il y a deux manières de le lancer, soit à partir du dockerfile soit à partir 
 
 Si on veut le lancer à partir du dockerfile, il suffit de construire le conteuneur avec ( en ayant au préalable lancer de demon docker):
 ```
-docker build -t model_run .
+docker build -t model_run_extra .
 ```
 On peut ensuite lancer le docker en mode interactif avec :
 ```
-docker run -it model_run
+docker run -it model_run_extra
 ```
 Ctrl+D permet de fermer le docker.
 
@@ -45,18 +45,18 @@ Ctrl+D permet de fermer le docker.
 
 Pour entrainer le modèle, on doit lancer le script modele.py. On peut preciser le nom du modele que l'on souhaite créer, le nombre d'epochs  ainsi que le repertoire des données d'entrainement. Pour cela on utilise la commmande ( soit directement dans le terminal soit dans le terminal du docker):
 ```
-python3 src/phase1/modele.py  (NOM_MODELE NOMBRE_EPOCH REPERTOIRE_DONNEES)
+python3 src/phase1_extra/modele_extra.py  (NOM_MODELE NOMBRE_EPOCH REPERTOIRE_DONNEES)
 ```
 
 ### Test 
 Pour tester le modèle, on peut lancer le script test_vocal qui va effectuer un enregistrement pendant 3 seconde et renvoyer le mots compris par le modèle.
 ```
-python3 src/phase1/test_vocal.py
+python3 src/phase1_extra/test_vocal_extra.py
 ```
 
 On peut également faire un test à partir d'un fichier avec le script test_fichier. Il faut alors lui fournir le chemin vers le fichier. On peut également lui fournit le chemin du modele a utilisé, par défaut il s'agit de "modeles/mel-cnn"
 ```
-python3 src/phase1/test_fichier.py CHEMIN_FICHIER (CHEMIN_MODELE)
+python3 src/phase1_extra/test_fichier_extra.py CHEMIN_FICHIER (CHEMIN_MODELE)
 ```
 
 
@@ -77,7 +77,7 @@ En effet, dans cette partie nous utilisons que 10 mots de commande : 'yes', 'no'
 
 Les données prétraitée ont une durrée d'enregistrement de 1s et la fréquence d'chantillonnage est de 16 000 HZ.
 
-Par défaut, les données prétraitées sont enregistrées dans le dossier './donnees_traitees' et les modèles dans './modeles'.
+Par défaut, les données prétraitées sont enregistrées dans le dossier './donnees_traitees_extra' et les modèles dans './modeles_extra'.
 
 De même par défaut,le modèle est entrainé sur 8 epochs.
 
@@ -86,22 +86,15 @@ De même par défaut,le modèle est entrainé sur 8 epochs.
 ## Details des fichiers
 
 ##### Péparation des données
-pretraitement.py : télécharge, redimmensionne et transforme en spectogramme de mel les données du dataset : "hub://activeloop/speech-commands-train"
+pretraitement_extra.py : télécharge, redimmensionne et transforme en spectogramme de mel les données du dataset : "hub://activeloop/speech-commands-train"
 
 ##### Construction du modèle
-modele.py : Construit et entraine le modèle avec les données prétraitées.
+modele_extra.py : Construit et entraine le modèle avec les données prétraitées.
 
-version_model.txt : contient les versions et la justesse du modele
+version_model_extra.txt : contient les versions et la justesse du modele
 
 ##### Test manuel du modèle
-main.py :
-applique le modèle a tous les audios du repertoire \audio
+test_vocal_extra.py : fait un enregistrement de 3s, analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom "output.wav".
 
-affichage.py :
-fait l'affichage de la table récapitulative de l'analyse des audios
+test_fichier_extra.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
 
-test_vocal.py : fait un enregistrement de 3s, analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom "output.wav".
-
-test_fichier.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
-
-model_fct.py : fonction pour appliquer un model à un tableau fournit en entrée.
