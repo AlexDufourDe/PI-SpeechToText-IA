@@ -87,17 +87,21 @@ De même par défaut,le modèle est entrainé sur 8 epochs.
 
 ##### Péparation des données
 pretraitement.py : télécharge, redimmensionne et transforme en spectogramme de mel les données du dataset : "hub://activeloop/speech-commands-train"
-reduction_de_bruit.py : affiche un filtre de réduction de bruit à un fichier donné ( EN COURS)
 
 ##### Construction du modèle
 modele.py : Construit et entraine le modèle avec les données prétraitées.
+
 version_model.txt : contient les versions et la justesse du modele
 
 ##### Test manuel du modèle
 main.py :
 applique le modèle a tous les audios du repertoire \audio
+
 affichage.py :
 fait l'affichage de la table récapitulative de l'analyse des audios
+
 test_vocal.py : fait un enregistrement de 3s, analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom "output.wav".
+
 test_fichier.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
+
 model_fct.py : fonction pour appliquer un model à un tableau fournit en entrée.
