@@ -15,14 +15,14 @@ import tensorflow_io as tfio
 from sklearn.model_selection import train_test_split
 from time import time
 import os
+import sys
 
 #url="hub://activeloop/speech-commands-train"
 
-def download_data2(url,chemin):
+def download_data(url,chemin):
 
     # Ajouter les mots souhaités, et l'index correspondant. Les mots disponibles sont donnés en bas de page
-    MOTS = ['Sheila','Zero','Go','Bed','Bird','Stop','Marvin','Yes','Four','House','Off','Tree','Wow','Happy','Nine','Up','Three','Right','Five','Two','One','Left','Eight','Six','Down','Dog','No','Cat','On','Seven'
-]
+    MOTS = ['Sheila','Zero','Go','Bed','Bird','Stop','Marvin','Yes','Four','House','Off','Tree','Wow','Happy','Nine','Up','Three','Right','Five','Two','One','Left','Eight','Six','Down','Dog','No','Cat','On','Seven']
     index_mots = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26,27,28,29,30]
 
     CHEMIN_SAUVEGARDE =chemin    #Choisir le dossier de sauvegarde des données
@@ -104,7 +104,15 @@ index 29: On ---Debut 59983 fin 62349
 index 30: Seven ---Debut 62350 fin 64726
 """
 
-
+if __name__ == "__main__":
+    # total arguments
+    n = len(sys.argv)
+    if (n>2):
+        print(f"Too many argument, expected :1 , got {n}")
+    elif n==2:
+        download_data("hub://activeloop/speech-commands-train",sys.argv[1])
+    else:   
+        download_data("hub://activeloop/speech-commands-train",'./donnees_traitees_extra')
 
 
 
