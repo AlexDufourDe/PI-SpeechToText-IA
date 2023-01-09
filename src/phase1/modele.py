@@ -16,7 +16,7 @@ from pretraitement import download_data
 
 DATA="hub://activeloop/speech-commands-train"
 NB_MOTS = 10 # Changer en fonction du nombre de mots du corpus
-CHEMIN_SAUVEGARDE_MODELE = './modeles' # Dossier de sauvegarde des modèles entrainés
+CHEMIN_SAUVEGARDE_MODELE = './src/phase1/modeles' # Dossier de sauvegarde des modèles entrainés
 
 len_arg = len(sys.argv)
 if (len_arg>4):
