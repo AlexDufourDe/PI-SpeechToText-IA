@@ -35,7 +35,7 @@ elif len_arg==3:   #(NOM_MODELE)  (NOMBRE_EPOCH) (REPERTOIRE_DONNEES)
 
 else: 
          
-    CHEMIN_DONNEES= './donnees_traitees' # Dossier contenant les données pré-traitées
+    CHEMIN_DONNEES= 'src/phase1/./donnees_traitees' # Dossier contenant les données pré-traitées
     NOM_MODEL='mel-cnn'
     NB_EPOCH=8
 
@@ -83,7 +83,7 @@ if (len_arg<=4):
     # Evaluation du modèle
     acc=model.evaluate(x_test, y_test)
 
-    version = open("version_model.txt", "a")
+    version = open("src/phase1/version_model.txt", "a")
     version.write("\n")
     version.write(str(datetime.datetime.today()))
     version.write("  "+NOM_MODEL+ " entrainé sur "+CHEMIN_DONNEES+"\n")
