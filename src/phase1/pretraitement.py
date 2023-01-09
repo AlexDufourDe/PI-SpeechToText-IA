@@ -16,6 +16,7 @@ import tensorflow_io as tfio
 from sklearn.model_selection import train_test_split
 from time import time
 import os
+import sys
 
 #url="hub://activeloop/speech-commands-train"
 #chemin= './donnees_traitees'
@@ -103,8 +104,12 @@ index 30: Seven ---Debut 62350 fin 64726
 
 
 
-
-
-
-
-download_data("hub://activeloop/speech-commands-train",'./donnees_traitees')
+if __name__ == "__main__":
+    # total arguments
+    n = len(sys.argv)
+    if (n>2):
+        print(f"Too many argument, expected :1 , got {n}")
+    elif n==2:
+        download_data("hub://activeloop/speech-commands-train",sys.argv[1])
+    else:   
+        download_data("hub://activeloop/speech-commands-train",'./donnees_traitees')
