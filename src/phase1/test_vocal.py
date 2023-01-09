@@ -19,7 +19,7 @@ import numpy as np
 import tensorflow_io as tfio
 
 MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
-CHEMIN_MODELE = './modeles/mel-cnn'  #Chemin du modèle que l'on souhaite tester
+CHEMIN_MODELE = './src/phase1/modeles/mel-cnn'  #Chemin du modèle que l'on souhaite tester
 
 fs = 16000  # Fréquence d'echantillonage (en Hz)
 secondes = 3  # Durée de l'enregistrement
