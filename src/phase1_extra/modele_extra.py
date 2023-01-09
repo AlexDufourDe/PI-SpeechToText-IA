@@ -29,7 +29,7 @@ elif len_arg==3:   #(NOM_MODELE)  (NOMBRE_EPOCH)
       NOM_MODELE=sys.argv[1]
       NB_EPOCH=sys.argv[2]
 
-elif len_arg==3:   #(NOM_MODELE)  (NOMBRE_EPOCH) (REPERTOIRE_DONNEES)
+elif len_arg==4:   #(NOM_MODELE)  (NOMBRE_EPOCH) (REPERTOIRE_DONNEES)
       NOM_MODELE=sys.argv[1]
       NB_EPOCH=int(sys.argv[2])
       CHEMIN_DONNEES=sys.argv[3]
