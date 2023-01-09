@@ -2,6 +2,7 @@ import numpy as np
 import keras
 import tensorflow as tf
 from jiwer import wer
+from prediction import decode_batch_predictions
 
 # A callback class to output a few transcriptions during training
 class CallbackEval(keras.callbacks.Callback):
@@ -11,9 +12,18 @@ class CallbackEval(keras.callbacks.Callback):
         super().__init__()
         self.dataset = dataset
 
-    def on_epoch_end(self,model, epoch: int,decode_batch_predictions,num_to_char, logs=None):
+    def on_epoch_end(self,model, epoch: int, logs=None):
         predictions = []
         targets = []
+        
+        # The set of characters accepted in the transcription.
+        characters = [x for x in "abcdefghijklmnopqrstuvwxyz'?! "]
+        # Mapping characters to integers
+        char_to_num = keras.layers.StringLookup(vocabulary=characters, oov_token="")
+        # Mapping integers back to original characters
+        num_to_char = keras.layers.StringLookup(
+            vocabulary=char_to_num.get_vocabulary(), oov_token="", invert=True
+        )
         for batch in self.dataset:
             X, y = batch
             batch_predictions = model.predict(X)
