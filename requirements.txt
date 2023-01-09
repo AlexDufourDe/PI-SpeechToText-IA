@@ -1,7 +1,11 @@
+jiwer
+tensorflow
+keras
 pandas
-matplotlib
-deeplake
-deeplake[audio]
-tensorflow_io
-sklearn
+numpy
+IPython
 os
+scikit-learn
+json
+wget
+scipy

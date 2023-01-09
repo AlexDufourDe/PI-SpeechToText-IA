@@ -1,61 +1,117 @@
-# Readme IA :
+# SPEECH TO TEXT : l'art de retranscrire la parole
 
-Description de l'utilisation du docker, de l'organisation du git, 
+Ce README concerne la branche "deepspeech_custom". Elle implemente un modèle de reconnaissance de phrase basée sur le modèle Deepspeech. Ce dernier est un projet opensource de mozilla : "https://github.com/mozilla/DeepSpeech"
+On peut télécharger et prétraiter les données ainsi que entrainer le modèle.
 
-## Organisation du git
-
-Le git est séparer en fonction des phase du projet.
-Tous les fichiers hors ressource et paramétrage sont placé dans le dossier src.
-
-### Phase 1
-
-#### dossiers
-./donnees_traitees :
-contient toutes les données qui on été préparer pour l'entrainement du modèle.
-
-./modeles : 
-Contient les dossier avec les différents modele. Chacun a un dossier.
-
-#### fichiers
+## Prerequis
 
 
-##### Préparation des données
+### Modules Python
+Concernant les modules nécessaires à l'exécution du modèle, ils sont spécifiés dans le fichier requirements.txt.
+Pour tous les installés, il suffit de lancer la commande:
+```
+pip3 install -r requirements.txt
+```
+Ces installations sont déjà présentes dans le docker fournit avec le projet.
 
-pretraitement.py : télécharge, redimmensionne et transforme en spectogramme de mel les données du dataset : "hub://activeloop/speech-commands-train"
 
-reduction_de_bruit.py : affiche un filtre de réduction de bruit à un fichier donné ( EN COURS)
+### données d'entrainements
+
+Les données d'entrainement proviennent de Mozilla Common voice pour l'entrainement en français et de LJ Speech de Keith Ito pour l'entrainement en anglais.
+
+#### Mozilla common voice
+
+Pour telechargé les données de mozilla common voice, il suffit de lancer le script pretraitement_json. Il est necessaire que le fichier mozilla_commonvoice.json soit dans le même dossier que le script sinon il faut indiqué le chemin vers ce fichier.
+On peut le lancer avec la commande:
+```
+python3 src/phase2/pretraitement_mozillacm.py (CHEMIN_JSON CHEMIN_SAUVEGARDE)
+```
+Deux dossiers par défaut vont alors etre créer : mozilla_commonvoice qui contient les audios originaux et mozilla_common_voice_pretraitee qui contient les données prétraité. Si un chemain de sauvegarder a étét préciser alors les données originales seront sauvergardées dans un dossier du nom indiqué et les donnée prétraitée dans le dossier CHEMIN_SAUVEGARDE+'_pretraitee'
+
+Cette étape est facultative. En effet, si lors de l'entrainement du modèle, les données n'ont pas été téléchargé ce derniers va lancer le script de prétraitement. Il faudrat ainsi prendre en compte la durée de téléchargement en plus du temps d'entrainement du modèle.
+
+#### LJSpeech
+Pour telechargé les données de LJ Speech, il suffit de lancer le script pretraitement_json. Il est necessaire que le fichier mozilla_commonvoice.json soit dans le même dossier que le script sinon il faut indiqué le chemin vers ce fichier.
+On peut le lancer avec la commande:
+```
+python3 src/phase2/pretraitement_LJSpeech.py (CHEMIN_JSON)
+```
+Deux dossiers par défaut vont alors etre créer : LJSpeech qui contient les audios originaux et LJSpeech_pretraitee qui contient les données prétraité. Si un chemain de sauvegarder a étét préciser alors les données originales seront sauvergardées dans un dossier du nom indiqué et les donnée prétraitée dans le dossier CHEMIN_SAUVEGARDE+'_pretraitee'
+
+Cette étape est facultative. En effet, si lors de l'entrainement du modèle, les données n'ont pas été téléchargé ce derniers va lancer le script de prétraitement. Il faudrat ainsi prendre en compte la durée de téléchargement en plus du temps d'entrainement du modèle.
+
+
+### Docker 
+
+Un docker est fournit pour simplifier l'utilastion de ce projet.
+Il y a deux manières de le lancer, soit à partir du dockerfile soit à partir de la sauvegarde.
+
+Si on veut le lancer à partir du dockerfile, il suffit de construire le conteuneur avec ( en ayant au préalable lancer de demon docker):
+```
+docker build -t deepspeech_custom .
+```
+On peut ensuite lancer le docker en mode interactif avec :
+```
+docker run -it deepspeech_custom
+```
+Ctrl+D permet de fermer le docker.
+
+## Exécution
+
+### Entrainement du modèle
+
+Pour entrainer le modèle, on doit lancer le script train.py.  On doit préciser la langue d'entrainement. On peut également  préciser le nombre d'epoch,le repertoire dans lequel enregistrer le modeleainsi que son nom. Pour cela on utilise la commmande ( soit directement dans le terminal soit dans le terminal du docker):
+```
+python3 src/phase2/train.py  (LANGUE NB_EPOCH CHEMIN_MODELE NOM_MODELE )
+```
+
+
+
+## Modèle et Usage
+
+### prétraitement
+
+Avant d'être envoyé en entrée au modèle, les données sont prétraitées. Elles sont tout d'abord redimensionner à la même longueur puis transformé en spectogramme de mel avec un echelle en décibel.
+
+### Modèle
+
+#### Deepspeech 
+Le modèle utilisé est un modèle composé de 3 couches dense une couche récurente et deux couches denses. Il est ensuite compilé à l'aide de la loss de l'algoritme CTC.
+
+### Valeur par défaut
+
+Les données prétraitée ont une durrée d'enregistrement de 1s et la fréquence d'chantillonnage est de 16 000 HZ.
+
+Par défaut, les données prétraitées sont enregistrées dans le dossier './donnees_traitees_extra' et les modèles dans './modeles_extra'.
+
+De même par défaut,le modèle est entrainé sur 8 epochs.
+
+
+
+## Details des fichiers
+
+##### Péparation des données
+pretraitrement_mozillacm.py : télécharge les données de mozilla_common_voice et effectue le prétraitement.
+
+pretraitrement_LJSpeech.py : télécharge les données de LJ Speech et effectue le prétraitement.
 
 ##### Construction du modèle
+build_model.py : construit le modele en ajoutant les différentes couches
 
-modele.py : Construit et entraine le modèle avec les données prétraitées.
+callback.py: affiche un exemple de traduction d'une phrase à la fin de chaque epoch
 
-version_model.txt : contient les versions et la justesse du modele
+ctc_loss: renvoi la loss de l'algoritme ctc
+
+prediction.py : effectue la prediction du phrase par le modèle
+
+train.py : entraine le modele selon les paramètres spécifié par l'utilisateur
+
+version_en.txt : contient les versions du modele entrainé en anglais
+version_fr.txt :contient les versions du modele entrainé en français
+
+
 ##### Test manuel du modèle
+test_vocal_extra.py : fait un enregistrement de 3s, analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom "output.wav".
 
-main.py : 
-applique le modèle a tous les audios du repertoire \audio
-
-affichage.py : 
-fait l'affichage de la table récapitulative de l'analyse des audio
-
-test_vocal.py : fait un enregistrement de 3s et analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom output.
-
-test_fichier.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
-
-model_fct.py : fonction pour appliqué un model a un tableau fournit en entrée.
-
-
-### Phase 2
-
-
-Les données sont télécharge dans la banque de données mozilla:
-https://commonvoice.mozilla.org/fr/datasets
-
-
-#### dossiers
-
-
-#### fichiers
-pretraitement.py: telecharge les données depuis la base de données commonvoice de mozilla. On va ainsi redimensionner les audio, les transformés en spectogramme de mel et les enregistrés dans le dossier "mozilla_common_voice_pretraitee" sous forme de fichier numpy.
-La base de données comporte 96 audio et pese 46 mo
+test_fichier_extra.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
 
