@@ -15,7 +15,7 @@ pip3 install -r requirements.txt
 Ces installations sont déjà présentes dans le docker fournit avec le projet.
 
 
-### données d'entrainements
+### Données d'entrainements
 
 Les données d'entrainement proviennent de "ActiveLoop" dans le dataset "speech-commands-train".
 Elles peuvent etre téléchargée et enregistrée après prétraitement en lançant le scipt pretraitenement.py et en donnant en argument le nom du dossier où stocker les données. La commande est la suivante
@@ -62,9 +62,9 @@ python3 src/phase1_extra/test_fichier_extra.py CHEMIN_FICHIER (CHEMIN_MODELE)
 
 ## Modèle et Usage
 
-### prétraitement
+### Prétraitement
 
-Avant d'être envoyé en entrée au modèle, les données sont prétraitées. Elles sont tout d'abord redimensionner à la même longueur puis transformé en pectogramme de mel avec un echelle en décibel.
+Avant d'être envoyé en entrée au modèle, les données sont prétraitées. Elles sont tout d'abord redimensionner à la même longueur puis transformé en spectogramme de mel avec un echelle en décibel.
 
 ### Modèle
 
