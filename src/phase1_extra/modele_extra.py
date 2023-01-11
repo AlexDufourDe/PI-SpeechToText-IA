@@ -17,7 +17,7 @@ from pretraitement_extra import download_data
 DATA="hub://activeloop/speech-commands-train"
 NB_MOTS = 30 # Changer en fonction du nombre de mots du corpus
 
-CHEMIN_SAUVEGARDE_MODELE = '.src/phase1_extra/modeles_extra' # Dossier de sauvegarde des modèles entrainés
+CHEMIN_SAUVEGARDE_MODELE = './src/phase1_extra/modeles_extra' # Dossier de sauvegarde des modèles entrainés
 
 len_arg = len(sys.argv)
 if (len_arg>4):
@@ -35,10 +35,9 @@ elif len_arg==4:   #(NOM_MODELE)  (NOMBRE_EPOCH) (REPERTOIRE_DONNEES)
       CHEMIN_DONNEES=sys.argv[3]
 
 else: 
-         
     CHEMIN_DONNEES= './src/phase1_extra/donnees_traitees_extra' # Dossier contenant les données pré-traitées
     NOM_MODEL='mel-cnn-enhance'
-    NB_EPOCH=8
+    NB_EPOCH=15
 
 if (len_arg<=4):
         
