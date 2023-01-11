@@ -35,7 +35,7 @@ def download_data(url,chemin):
     print("Importation des données. Cela peut prendre plus d'une heure")
     debut = time()
     for i in range(64726):
-        if (i %100 ==0):
+        if (i %5000 ==0):
             print(i)
         index = data.labels[i].numpy()[0]
         if index in index_mots :

@@ -1,0 +1,3 @@
+
+2023-01-10 15:04:03.442964  mel-cnn-enhance entrainé sur ./src/phase1_extra/donnees_traitees_extra
+loss : 1.657800555229187, accuracy : 0.8055989742279053epoch :8
