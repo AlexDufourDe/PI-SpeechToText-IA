@@ -1,11 +1,10 @@
 jiwer
 tensorflow
+tensorflow_io
 keras
 pandas
 numpy
 IPython
-os
-scikit-learn
-json
-wget
 scipy
+scikit-learn
+wget

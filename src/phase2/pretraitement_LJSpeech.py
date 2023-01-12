@@ -1,14 +1,14 @@
 """
 This file import the data for training and testing the model
 """
-import keras
+
 import pandas as pd
 import os
 import tensorflow as tf
 import sys
 
 
-def ljspeech_download(chemin_sauvegarde):
+def ljspeech_download(chemin_sauvegarde ):
     """!import_data
     this fonction import the data and put them in the dataset form
     @para chemin_sauvegarde repository where the data will be save
@@ -25,7 +25,7 @@ def ljspeech_download(chemin_sauvegarde):
 
     ##### IMPORT OF DATA
     data_url = "https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2"
-    data_path = keras.utils.get_file("LJSpeech-1.1", data_url, untar=True)
+    data_path = tf.keras.utils.get_file("LJSpeech-1.1", data_url, untar=True)
     wavs_path = data_path + "/wavs/"
     metadata_path = data_path + "/metadata.csv"
 
@@ -46,7 +46,7 @@ def ljspeech_download(chemin_sauvegarde):
     if not os.path.exists(chemin_sauvegarde):
         os.makedirs(chemin_sauvegarde)
     df_train.to_csv(chemin_sauvegarde+'/train_data.csv')
-    df_train.to_csv(chemin_sauvegarde+'/test_data.csv')
+    df_val.to_csv(chemin_sauvegarde+'/test_data.csv')
 
     print("Données enregistrées dans le dossier " + chemin_sauvegarde)
 
@@ -56,9 +56,9 @@ def ljspeech_download(chemin_sauvegarde):
     # The set of characters accepted in the transcription.
     characters = [x for x in "abcdefghijklmnopqrstuvwxyz'?! "]
     # Mapping characters to integers
-    char_to_num = keras.layers.StringLookup(vocabulary=characters, oov_token="")
+    char_to_num = tf.keras.layers.StringLookup(vocabulary=characters, oov_token="")
     # Mapping integers back to original characters
-    num_to_char = keras.layers.StringLookup(
+    num_to_char = tf.keras.layers.StringLookup(
         vocabulary=char_to_num.get_vocabulary(), oov_token="", invert=True
     )
 
@@ -132,10 +132,13 @@ def ljspeech_download(chemin_sauvegarde):
 
     if not os.path.exists(chemin_sauvegarde+'_pretraitee'):
         os.makedirs(chemin_sauvegarde+'_pretraitee')
-    df_train.to_csv(chemin_sauvegarde+'_pretraitee/train_data.csv')
-    df_train.to_csv(chemin_sauvegarde+'_pretraitee/test_data.csv')
+    
+    tf.data.experimental.save(train_dataset,chemin_sauvegarde+'_pretraitee/train_data')
+    tf.data.experimental.save(validation_dataset,chemin_sauvegarde+'_pretraitee/test_data')
+    
 
     print("Données enregistrées dans le dossier " + chemin_sauvegarde)
+    
 
 
 
@@ -147,7 +150,7 @@ if __name__ == "__main__":
     elif n==2:
        ljspeech_download(sys.argv[1])
     else:   
-        ljspeech_download("LJSpeech")
+        ljspeech_download("src/phase2/LJSpeech")
 
 
 

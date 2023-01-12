@@ -52,22 +52,24 @@ def build_model(input_dim, output_dim,CTCLoss,char_to_num, rnn_layers=5, rnn_uni
 
     else:
 
+      model.add(tf.keras.layers.Reshape((70,-1)))
       # Couche 1
-      model.add(tf.keras.layers.Dense(units=64 , activation="relu"))
+      model.add(tf.keras.layers.Dense(units=64 , activation="relu",name='couche_1'))
       # Couche 2
-      model.add(tf.keras.layers.Dense(units=64 , activation="relu"))
+      model.add(tf.keras.layers.Dense(units=64 , activation="relu",name='couche_2'))
       # Couche 2
-      model.add(tf.keras.layers.Dense(units=64 , activation="relu"))
+      model.add(tf.keras.layers.Dense(units=64 , activation="relu",name='couche_3'))
 
+      model.add(tf.keras.layers.Reshape((64,-1)))
       # Couche 4
       model.add(tf.keras.layers.GRU(units = rnn_units, activation="tanh", recurrent_activation="sigmoid",
-                                    use_bias=True,return_sequences=True, reset_after=True))
+                                    use_bias=True,return_sequences=True, reset_after=True,input_dim=64,name='couche_4_gru'))
       
       # Couche 5
-      model.add(tf.keras.layers.Dense(units=64 , activation="relu"))
+      model.add(tf.keras.layers.Dense(units=64 , activation="relu",name='couche_5'))
 
       # Couche 6
-      model.add(tf.keras.layers.Dense(units=char_to_num.vocabulary_size()+1 , activation="softmax"))
+      model.add(tf.keras.layers.Dense(units=char_to_num.vocabulary_size()+1 , activation="softmax",name='couche_6'))
 
 
 

@@ -43,8 +43,8 @@ def mozillacm_download(data_chemin,save_chemin):
         Y.append(data_json['rows'][i]['row']['sentence'])
 
         url=data_json['rows'][i]['row']['audio'][1]['src']
-        response = wget.download(url,"mozilla_commonvoice/audio_"+str(i)+".wav")
-        samplerate, audio= wavfile.read("mozilla_commonvoice/audio_"+str(i)+".wav")
+        # response = wget.download(url,chemin_sauvegarde+"/audio_"+str(i)+".wav")
+        samplerate, audio= wavfile.read(chemin_sauvegarde+"/audio_"+str(i)+".wav")
 
         #pré-traitement
         fade = tfio.audio.fade(audio, fade_in=1000, fade_out=2000, mode="logarithmic")
@@ -62,18 +62,21 @@ def mozillacm_download(data_chemin,save_chemin):
 
     # Les tableaux numpy sont sauvegardés pour une utilisation rapide.
 
-    np.save(chemin_sauvegarde+'/train_data.npy', train_data)
-    np.save(chemin_sauvegarde+'/train_labels.npy', train_labels)
-    np.save(chemin_sauvegarde+'/test_data.npy', test_data)
-    np.save(chemin_sauvegarde+'/test_labels.npy', test_labels)
-    print("Données enregistrées dans le dossier " + chemin_sauvegarde)
+    # np.save(chemin_sauvegarde+'_pretraitee/train_data.npy', train_data)
+    # np.save(chemin_sauvegarde+'_pretraitee/train_labels.npy', train_labels)
+    # np.save(chemin_sauvegarde+'_pretraitee/test_data.npy', test_data)
+    # np.save(chemin_sauvegarde+'_pretraitee/test_labels.npy', test_labels)
+    # print("Données enregistrées dans le dossier " + chemin_sauvegarde)
 
-    train_dataset=pd.DataFrame(train_data,train_labels)
-    test_dataset=pd.DataFrame(test_data,test_labels)
-    train_dataset.to_csv(chemin_sauvegarde+'_pretraitee/train_data.csv')
-    test_dataset.to_csv(chemin_sauvegarde+'_pretraitee/test_data.csv')
+    train_df=pd.DataFrame()
+    train_df['spectogramme']=train_data
+    train_df['label']=train_labels
+    train_df.to_csv(chemin_sauvegarde+'_pretraitee/train.csv')
 
-
+    test_df=pd.DataFrame(test_data,test_labels)
+    test_df['spectogramme']=test_data
+    test_df['label']=test_labels
+    test_df.to_csv(chemin_sauvegarde+'_pretraitee/test.csv')
 
 
 
@@ -87,7 +90,7 @@ if __name__ == "__main__":
     elif n==2:
         mozillacm_download(sys.argv[1],"mozilla_common_voice")
     else:   
-        mozillacm_download("mozilla_commonvoice.json","mozilla_common_voice")
+        mozillacm_download("src/phase2/mozilla_commonvoice.json","src/phase2/mozilla_common_voice")
 
 
 

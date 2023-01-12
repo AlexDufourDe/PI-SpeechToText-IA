@@ -23,11 +23,9 @@ from ctc_loss import CTCLoss
 
 len_arg = len(sys.argv)
 if (len_arg>5):
-    print(f"Too many argument, expected max :4 , got {len_arg}")
-    exit()
-elif (len_arg<2):
-    print(f"Not enough argument, expected :1 , got {len_arg}")
-    exit()
+    print(f"Too many argument, expected max :4 , got {len_arg-1}")
+    exit() 
+
 elif len_arg==2: #(LANGUE)
     LANGUE=sys.argv[1]
 
@@ -43,7 +41,7 @@ elif len_arg==4:   #(LANGUE  NOMBRE_EPOCH CHEMIN_MODELE NOM_MODELE)
     NOM_MODELE=sys.argv[4]
 
 else: 
-    LANGUE='en'
+    LANGUE='fr'
     NB_EPOCH=8
     CHEMIN_MODELE='models'
     NOM_MODELE='deepspeech'
@@ -60,18 +58,28 @@ num_to_char = keras.layers.StringLookup(
 )
 
 
-if LANGUE.equal('fr'):
+if LANGUE=='fr':
     chemin='src/phase2/mozilla_common_voice_pretraitee'
     fft_length=1024
-elif LANGUE.equal('en'):
+
+    # Importation des données
+    df_train=pd.read_csv(chemin+'/train.csv')
+    df_test=pd.read_csv(chemin+'/test.csv')
+
+    train_dataset=tf.data.Dataset.from_tensors((df_train['spectogramme'],df_train['label']))
+    validation_dataset=tf.data.Dataset.from_tensors((df_test['spectogramme'],df_test['label']))
+
+
+elif LANGUE=='en':
     chemin='src/phase2/LJSpeech_pretraitee'
     fft_length=384
 else:
     print("The model is not train for this language")
     exit()
 
-train_dataset=pd.read_csv(chemin+'train_data.csv')
-validation_dataset=pd.read_csv(chemin+'test_data.csv')
+
+
+
 
 # Get the model
 model = build_model(
