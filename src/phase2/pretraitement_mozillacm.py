@@ -43,7 +43,7 @@ def mozillacm_download(data_chemin,save_chemin):
         Y.append(data_json['rows'][i]['row']['sentence'])
 
         url=data_json['rows'][i]['row']['audio'][1]['src']
-        # response = wget.download(url,chemin_sauvegarde+"/audio_"+str(i)+".wav")
+        response = wget.download(url,chemin_sauvegarde+"/audio_"+str(i)+".wav")
         samplerate, audio= wavfile.read(chemin_sauvegarde+"/audio_"+str(i)+".wav")
 
         #pré-traitement
