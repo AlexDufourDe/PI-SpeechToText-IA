@@ -28,7 +28,7 @@ elif len_arg==3:
       CHEMIN_MODELE=sys.argv[2]
       f_name=sys.argv[1]
 else: 
-      CHEMIN_MODELE = './src/phase1_extra/modeles_extra/mel-cnn'  
+      CHEMIN_MODELE = './src/phase1_extra/modeles_extra/mel-cnn-enhance'  
       f_name=sys.argv[1]
 
 if not os.path.exists(CHEMIN_MODELE):
