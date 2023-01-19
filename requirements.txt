@@ -5,3 +5,4 @@ deeplake[audio]
 tensorflow
 tensorflow_io
 scikit-learn
+sounddevice
