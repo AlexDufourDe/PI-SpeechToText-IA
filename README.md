@@ -21,24 +21,19 @@ Les données d'entrainement proviennent de Mozilla Common voice pour l'entrainem
 
 #### Mozilla common voice
 
+Ce dataset est un ensemble données en français
 Pour telechargé les données de mozilla common voice, il suffit de lancer le script pretraitement_json. Il est necessaire que le fichier mozilla_commonvoice.json soit dans le même dossier que le script sinon il faut indiqué le chemin vers ce fichier.
 On peut le lancer avec la commande:
 ```
-python3 src/phase2/pretraitement_mozillacm.py (CHEMIN_JSON CHEMIN_SAUVEGARDE)
+python3 src/phase2/download_mozillacmt.py (CHEMIN_JSON CHEMIN_SAUVEGARDE PRETRAITEMENT)
 ```
-Deux dossiers par défaut vont alors etre créer : mozilla_commonvoice qui contient les audios originaux et mozilla_common_voice_pretraitee qui contient les données prétraité. Si un chemain de sauvegarder a étét préciser alors les données originales seront sauvergardées dans un dossier du nom indiqué et les donnée prétraitée dans le dossier CHEMIN_SAUVEGARDE+'_pretraitee'
+Deux dossiers par défaut vont alors etre créer : mozilla_commonvoice qui contient les audios originaux et mozilla_common_voice_pretraitee qui contient les données prétraité (si on a signifié avec pretraitement que l'on voulait enregistrer les fichier pretraité). Si un chemain de sauvegarder a étét préciser alors les données originales seront sauvergardées dans un dossier du nom indiqué et les donnée prétraitée dans le dossier CHEMIN_SAUVEGARDE+'_pretraitee'
 
 Cette étape est facultative. En effet, si lors de l'entrainement du modèle, les données n'ont pas été téléchargé ce derniers va lancer le script de prétraitement. Il faudrat ainsi prendre en compte la durée de téléchargement en plus du temps d'entrainement du modèle.
 
 #### LJSpeech
-Pour telechargé les données de LJ Speech, il suffit de lancer le script pretraitement_json. Il est necessaire que le fichier mozilla_commonvoice.json soit dans le même dossier que le script sinon il faut indiqué le chemin vers ce fichier.
-On peut le lancer avec la commande:
-```
-python3 src/phase2/pretraitement_LJSpeech.py (CHEMIN_JSON)
-```
-Deux dossiers par défaut vont alors etre créer : LJSpeech qui contient les audios originaux et LJSpeech_pretraitee qui contient les données prétraité. Si un chemain de sauvegarder a étét préciser alors les données originales seront sauvergardées dans un dossier du nom indiqué et les donnée prétraitée dans le dossier CHEMIN_SAUVEGARDE+'_pretraitee'
-
-Cette étape est facultative. En effet, si lors de l'entrainement du modèle, les données n'ont pas été téléchargé ce derniers va lancer le script de prétraitement. Il faudrat ainsi prendre en compte la durée de téléchargement en plus du temps d'entrainement du modèle.
+Ce dataset est un dataset d'entrainement en anglais.
+Les données de LJ Speech n'ont pas besoin d'etre téléchargé avant.
 
 
 ### Docker 
