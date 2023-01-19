@@ -9,6 +9,7 @@ import sys
 import wget
 from scipy.io import wavfile
 import csv
+from scipy.io.wavfile import write
 
 """ Ce fichier fait le prétraitement des données pour la phase 2 c'est à dire des phrases completes"""
 # data_chemin="mozilla-foundation/common_voice_9_0
@@ -47,6 +48,11 @@ def mozillacm_download(data_chemin,save_chemin,pretraitement=False):
         url=data_json['rows'][i]['row']['audio'][1]['src']
         response = wget.download(url,chemin_sauvegarde+"/audio_"+str(i)+".wav")
         samplerate, audio= wavfile.read(chemin_sauvegarde+"/audio_"+str(i)+".wav")
+
+        # reshape all the audio to the same lenght by padding at the end with 0
+        max_lenght=359424
+        audio=np.pad(audio,(0,max_lenght-len(audio)),'constant',constant_values=(0))
+        write(chemin_sauvegarde+"/audio_"+str(i)+".wav",samplerate,audio)
 
         if pretraitement:
             Y.append(data_json['rows'][i]['row']['sentence'])
