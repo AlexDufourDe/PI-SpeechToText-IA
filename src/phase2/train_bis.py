@@ -15,7 +15,6 @@ import datetime
 from callback import CallbackEval
 from build_model import build_model
 from ctc_loss import CTCLoss
-from pretaitement import transorm_data
 
 
 
@@ -60,18 +59,26 @@ num_to_char = keras.layers.StringLookup(
 
 
 if LANGUE=='fr':
-    chemin='src/phase2/mozilla_common_voice'
+    chemin='src/phase2/mozilla_common_voice_pretraitee'
     fft_length=1024
 
+    # Importation des données
+    df_train=pd.read_csv(chemin+'/train.csv')
+    df_test=pd.read_csv(chemin+'/test.csv')
+
+    train_dataset=tf.data.Dataset.from_tensors((df_train['spectogramme'],df_train['label']))
+    validation_dataset=tf.data.Dataset.from_tensors((df_test['spectogramme'],df_test['label']))
+
+
 elif LANGUE=='en':
-    chemin='LJSpeech'
+    chemin='src/phase2/LJSpeech_pretraitee'
     fft_length=384
 else:
-    print("The model cannot be train in these language language")
+    print("The model is not train for this language")
     exit()
 
 
-train_dataset,validation_dataset=transorm_data(LANGUE)
+
 
 
 # Get the model

@@ -6,7 +6,7 @@ import pandas as pd
 import os
 import tensorflow as tf
 import sys
-
+from download_mozillacm import mozillacm_download
 
 def transorm_data(langue):
     """!import_data
@@ -28,6 +28,11 @@ def transorm_data(langue):
         data_path = "src/phase2/mozilla_common_voice"
         wavs_path = data_path
         metadata_path = data_path + "/metadata.csv"
+
+        if not os.path.exists(data_path):
+            mozillacm_download("src/phase2/mozilla_commonvoice.json","src/phase2/mozilla_common_voice")
+
+            
 
     elif langue=="eng":
         # An integer scalar Tensor. The window length in samples.

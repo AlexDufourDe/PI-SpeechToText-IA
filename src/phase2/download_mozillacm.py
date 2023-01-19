@@ -23,8 +23,7 @@ def mozillacm_download(data_chemin,save_chemin,pretraitement=False):
     if not os.path.exists(chemin_sauvegarde):
         os.makedirs(chemin_sauvegarde)
 
-    if not os.path.exists(chemin_sauvegarde+'_pretraitee'):
-        os.makedirs(chemin_sauvegarde+'_pretraitee')
+    
     
     
 
@@ -70,33 +69,38 @@ def mozillacm_download(data_chemin,save_chemin,pretraitement=False):
         print("Découpage en données d'entraitement et test, et sauvegarde")
         train_data, test_data, train_labels, test_labels = train_test_split(np.array(X), np.array(Y), test_size=0.3, random_state=83)
 
+        if not os.path.exists(chemin_sauvegarde+'_pretraitee'):
+            os.makedirs(chemin_sauvegarde+'_pretraitee')
+
         ###### Save as .npy #####
 
-        # np.save(chemin_sauvegarde+'_pretraitee/train_data.npy', train_data)
-        # np.save(chemin_sauvegarde+'_pretraitee/train_labels.npy', train_labels)
-        # np.save(chemin_sauvegarde+'_pretraitee/test_data.npy', test_data)
-        # np.save(chemin_sauvegarde+'_pretraitee/test_labels.npy', test_labels)
-        # print("Données enregistrées dans le dossier " + chemin_sauvegarde)
+        np.save(chemin_sauvegarde+'_pretraitee/train_data.npy', train_data)
+        np.save(chemin_sauvegarde+'_pretraitee/train_labels.npy', train_labels)
+        np.save(chemin_sauvegarde+'_pretraitee/test_data.npy', test_data)
+        np.save(chemin_sauvegarde+'_pretraitee/test_labels.npy', test_labels)
+        print("Données enregistrées dans le dossier " + chemin_sauvegarde)
 
 
         ###### Save as csv #####
         
-        # train_df=pd.DataFrame()
-        # train_df['spectogramme']=train_data
-        # train_df['label']=train_labels
-        # train_df.to_csv(chemin_sauvegarde+'_pretraitee/train.csv')
-        # test_df=pd.DataFrame(test_data,test_labels)
-        # test_df['spectogramme']=test_data
-        # test_df['label']=test_labels
-        # test_df.to_csv(chemin_sauvegarde+'_pretraitee/test.csv')
+        train_df=pd.DataFrame()
+        train_df['spectogramme']=train_data
+        train_df['label']=train_labels
+        train_df.to_csv(chemin_sauvegarde+'_pretraitee/train.csv')
+        test_df=pd.DataFrame(test_data,test_labels)
+        test_df['spectogramme']=test_data
+        test_df['label']=test_labels
+        test_df.to_csv(chemin_sauvegarde+'_pretraitee/test.csv')
 
 
 
 if __name__ == "__main__":
     # total arguments
     n = len(sys.argv)
-    if (n>3):
-        print(f"Too many argument, expected :1 , got {n}")
+    if (n>4):
+        print(f"Too many argument, expected :3 , got {n-1}")
+    elif n==4:
+        mozillacm_download(sys.argv[1],sys.argv[2],sys.argv[3])
     elif n==3:
         mozillacm_download(sys.argv[1],sys.argv[2])
     elif n==2:
