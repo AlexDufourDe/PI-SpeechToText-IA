@@ -52,7 +52,7 @@ def build_model(input_dim, output_dim,CTCLoss,char_to_num, rnn_layers=5, rnn_uni
 
     else:
 
-      model.add(tf.keras.layers.Reshape((70,-1)))
+      
       # Couche 1
       model.add(tf.keras.layers.Dense(units=64 , activation="relu",name='couche_1'))
       # Couche 2
