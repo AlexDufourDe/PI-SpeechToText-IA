@@ -86,9 +86,7 @@ De même par défaut,le modèle est entrainé sur 8 epochs.
 ## Details des fichiers
 
 ##### Péparation des données
-pretraitrement_mozillacm.py : télécharge les données de mozilla_common_voice et effectue le prétraitement.
-
-pretraitrement_LJSpeech.py : télécharge les données de LJ Speech et effectue le prétraitement.
+pretraitrement.py : télécharge les données voulues et effectue le prétraitement.
 
 ##### Construction du modèle
 build_model.py : construit le modele en ajoutant les différentes couches
