@@ -1,7 +1,0 @@
-pandas
-matplotlib
-deeplake
-deeplake[audio]
-tensorflow
-tensorflow_io
-scikit-learn
