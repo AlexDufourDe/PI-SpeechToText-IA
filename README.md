@@ -55,10 +55,12 @@ python3 src/phase1/test_vocal.py
 ```
 
 On peut également faire un test à partir d'un fichier avec le script test_fichier. Il faut alors lui fournir le chemin vers le fichier. On peut également lui fournit le chemin du modele a utilisé, par défaut il s'agit de "modeles/mel-cnn"
+Si il n'y a qu'un seul mot prononcé lors de l'enregistrement, on utilise:
 ```
 python3 src/phase1/test_fichier.py CHEMIN_FICHIER (CHEMIN_MODELE)
 ```
-
+Si il y en a plusieurs:
+python3 src/phase1/test_fichier_long.py CHEMIN_FICHIER (CHEMIN_MODELE)
 
 ## Modèle et Usage
 
