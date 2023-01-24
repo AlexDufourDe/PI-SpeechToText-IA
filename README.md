@@ -45,7 +45,7 @@ Ctrl+D permet de fermer le docker.
 
 Pour entrainer le modèle, on doit lancer le script modele.py. On peut preciser le nom du modele que l'on souhaite créer, le nombre d'epochs  ainsi que le repertoire des données d'entrainement. Pour cela on utilise la commmande ( soit directement dans le terminal soit dans le terminal du docker):
 ```
-python3 src/phase1/modele.py  (NOM_MODELE NOMBRE_EPOCH REPERTOIRE_DONNEES)
+python3 src/phase1/modele.py  -n NOM_MODELE -e NOMBRE_EPOCH -p REPERTOIRE_DONNEES
 ```
 
 ### Test 
@@ -57,10 +57,10 @@ python3 src/phase1/test_vocal.py
 On peut également faire un test à partir d'un fichier avec le script test_fichier. Il faut alors lui fournir le chemin vers le fichier. On peut également lui fournit le chemin du modele a utilisé, par défaut il s'agit de "modeles/mel-cnn"
 Si il n'y a qu'un seul mot prononcé lors de l'enregistrement, on utilise:
 ```
-python3 src/phase1/test_fichier.py CHEMIN_FICHIER (CHEMIN_MODELE)
+python3 src/phase1/test_fichier.py -p CHEMIN_FICHIER -m CHEMIN_MODELE
 ```
 Si il y en a plusieurs:
-python3 src/phase1/test_fichier_long.py CHEMIN_FICHIER (CHEMIN_MODELE)
+python3 src/phase1/test_fichier_long.py  -p CHEMIN_FICHIER -m CHEMIN_MODELE
 
 ## Modèle et Usage
 
