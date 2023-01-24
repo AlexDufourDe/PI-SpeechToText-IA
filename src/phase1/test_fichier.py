@@ -6,7 +6,7 @@ This file can test the model usion g a .wav file and print the result of the pre
 
 """
 
-
+import argparse
 from scipy.io.wavfile import write
 import tensorflow as tf
 import numpy as np
@@ -18,48 +18,59 @@ import sys
 
 MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
 
-#Path to file
-len_arg = len(sys.argv)
-if (len_arg>3):
-      print(f"Too many argument, expected : 2 , got {len_arg}")
-elif len_arg==1:
-      print(f"Not enough argument, expected : 2 , got {len_arg}")
-elif len_arg==3:
-      CHEMIN_MODELE=sys.argv[2]
-      f_name=sys.argv[1]
+# Command line parser
+
+parser = argparse.ArgumentParser(description="Test the transcription of a wav file with a CNN model",
+                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument("-p", "--path",  help="Path to the folder containing the .wav files")
+parser.add_argument("-m","--model",help="Path to the folder of the model" )
+
+args = vars(parser.parse_args())
+f_name=args['path']
+
+
+
+if (not f_name):
+      print(f"Not enough argument, you have to specify the path to the file using -p")
+      exit()
+
+if(args['model']):
+      CHEMIN_MODELE=args['model']
 else: 
       CHEMIN_MODELE = './src/phase1/modeles/mel-cnn'  
-      f_name=sys.argv[1]
+
 
 if not os.path.exists(CHEMIN_MODELE):
       print(f"The model {CHEMIN_MODELE} does not exist")
-else:
-      if not os.path.exists(f_name):
-            print(f"The file {f_name} does not exist")
-      else:
+      exit()
 
-            samplerate, data = wavfile.read(f_name)
-
-
-            # Importation du mpdèle entrainé
-            model = tf.keras.models.load_model(CHEMIN_MODELE)
+if not os.path.exists(f_name):
+      print(f"The file {f_name} does not exist")
+      exit()
 
 
-            scaled = np.int16(data* 32767).reshape(16000) # Remise à l'echelle de l'audio
+samplerate, data = wavfile.read(f_name)
 
-            # Ici, on réapplique le mêmes pré-traitements que pour les données d'entraînements.
-            fade = tfio.audio.fade(scaled, fade_in=1000, fade_out=2000, mode="logarithmic")
-            spectrogram = tfio.audio.spectrogram(fade, nfft=1024, window=1024, stride=256)
-            mel_spectrogram = tfio.audio.melscale(spectrogram, rate=16000, mels=128, fmin=0, fmax=8000)
 
-            test = np.array(tfio.audio.dbscale(mel_spectrogram, top_db=80))[...,np.newaxis]
+# Importation du mpdèle entrainé
+model = tf.keras.models.load_model(CHEMIN_MODELE)
 
-            # Prediction
-            index = np.argmax(model.predict(np.array([test])))
 
-            print("\n")
-            print("\nLe mot retranscrit est ---> " + (MOTS[index]).upper() + " <---")
-            print("Si ce n'est pas la bonne retranscription, veuillez revérifier le fichier audio, l'erreur vient probablement de "
-                  "l'enregistrement ")
-            print("\n")
+scaled = np.int16(data* 32767).reshape(16000) # Remise à l'echelle de l'audio
+
+# Ici, on réapplique le mêmes pré-traitements que pour les données d'entraînements.
+fade = tfio.audio.fade(scaled, fade_in=1000, fade_out=2000, mode="logarithmic")
+spectrogram = tfio.audio.spectrogram(fade, nfft=1024, window=1024, stride=256)
+mel_spectrogram = tfio.audio.melscale(spectrogram, rate=16000, mels=128, fmin=0, fmax=8000)
+test = np.array(tfio.audio.dbscale(mel_spectrogram, top_db=80))[...,np.newaxis]
+
+
+# Prediction
+index = np.argmax(model.predict(np.array([test])))
+
+print("\n")
+print("\nLe mot retranscrit est ---> " + (MOTS[index]).upper() + " <---")
+print("Si ce n'est pas la bonne retranscription, veuillez revérifier le fichier audio, l'erreur vient probablement de "
+      "l'enregistrement ")
+print("\n")
 
