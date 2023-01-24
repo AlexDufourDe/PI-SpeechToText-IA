@@ -22,8 +22,11 @@ MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
 len_arg = len(sys.argv)
 if (len_arg>3):
       print(f"Too many argument, expected : 2 , got {len_arg}")
+      exit()
 elif len_arg==1:
       print(f"Not enough argument, expected : 2 , got {len_arg}")
+      exit()
+      
 elif len_arg==3:
       CHEMIN_MODELE=sys.argv[2]
       f_name=sys.argv[1]
@@ -51,9 +54,9 @@ else:
             fade = tfio.audio.fade(scaled, fade_in=1000, fade_out=2000, mode="logarithmic")
             spectrogram = tfio.audio.spectrogram(fade, nfft=1024, window=1024, stride=256)
             mel_spectrogram = tfio.audio.melscale(spectrogram, rate=16000, mels=128, fmin=0, fmax=8000)
-
             test = np.array(tfio.audio.dbscale(mel_spectrogram, top_db=80))[...,np.newaxis]
 
+      
             # Prediction
             index = np.argmax(model.predict(np.array([test])))
 

@@ -25,10 +25,8 @@ if (len_arg>3):
       print(f"Too many argument, expected : 2 , got {len_arg-1}")
       exit()
 elif len_arg==1:
-      # print(f"Not enough argument, expected : 2 , got {len_arg}")
-      # exit()
-      f_name="src/phase1/test.wav"
-      CHEMIN_MODELE = './src/phase1/modeles/mel-cnn' 
+      print(f"Not enough argument, expected : 2 , got {len_arg}")
+      exit()
 
 elif len_arg==3:
       CHEMIN_MODELE=sys.argv[2]
