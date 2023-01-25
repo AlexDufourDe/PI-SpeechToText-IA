@@ -11,6 +11,8 @@ from IPython import display
 from jiwer import wer
 from unidecode import unidecode
 
+from build_model import model_2CNN_5RNN, model_CNN_RNN, model_CNN
+
 
 # Command line parser
 
@@ -21,12 +23,21 @@ parser.add_argument("-m","--metadata",help="Metadata csv ile. the file must have
 parser.add_argument("-o","--output",default='output.h5',help="Output keras model")
 parser.add_argument("-e","--epochs",default=1,help="Number of epochs for training")
 parser.add_argument("-s","--val_split", default=0.1, help="Validation split")
+parser.add_argument("-mo","--model",help="Type of model to train. There is '2CNN+5RNN', 'CNN+RNN', '3CNN'.")
 args = vars(parser.parse_args())
 wavs_path = args['data'] + '/'
 metadata_path = args['metadata']
 output_path = args['output']
 val_split = args['val_split']
 epochs = args['epochs']
+model_type=args['model']
+
+liste_model=['2CNN+5RNN', 'CNN+RNN', '3CNN']
+
+if not( model_type in liste_model):
+    print(" this architecture is not implemented, please check the model that the model you choose is ammong ",liste_model)
+    exit()
+
 
 
 # Reading and normalizing the metadata file ( Removing unknown characters, accents, etc)
@@ -140,63 +151,17 @@ def CTCLoss(y_true, y_pred):
 # Preparing the model. The layers can be customized here
 
 def build_model(input_dim, output_dim, rnn_layers=5, rnn_units=128):
-    """Model similar to DeepSpeech2."""
-    # Model's input
-    input_spectrogram = layers.Input((None, input_dim), name="input")
-    # Expand the dimension to use 2D CNN.
-    x = layers.Reshape((-1, input_dim, 1), name="expand_dim")(input_spectrogram)
-    # Convolution layer 1
-    x = layers.Conv2D(
-        filters=32,
-        kernel_size=[11, 41],
-        strides=[2, 2],
-        padding="same",
-        use_bias=False,
-        name="conv_1",
-    )(x)
-    x = layers.BatchNormalization(name="conv_1_bn")(x)
-    x = layers.ReLU(name="conv_1_relu")(x)
-    # Convolution layer 2
-    x = layers.Conv2D(
-        filters=32,
-        kernel_size=[11, 21],
-        strides=[1, 2],
-        padding="same",
-        use_bias=False,
-        name="conv_2",
-    )(x)
-    x = layers.BatchNormalization(name="conv_2_bn")(x)
-    x = layers.ReLU(name="conv_2_relu")(x)
-    # Reshape the resulted volume to feed the RNNs layers
-    x = layers.Reshape((-1, x.shape[-2] * x.shape[-1]))(x)
-    # RNN layers
-    for i in range(1, rnn_layers + 1):
-        recurrent = layers.GRU(
-            units=rnn_units,
-            activation="tanh",
-            recurrent_activation="sigmoid",
-            use_bias=True,
-            return_sequences=True,
-            reset_after=True,
-            name=f"gru_{i}",
-        )
-        x = layers.Bidirectional(
-            recurrent, name=f"bidirectional_{i}", merge_mode="concat"
-        )(x)
-        if i < rnn_layers:
-            x = layers.Dropout(rate=0.5)(x)
-    # Dense layer
-    x = layers.Dense(units=rnn_units * 2, name="dense_1")(x)
-    x = layers.ReLU(name="dense_1_relu")(x)
-    x = layers.Dropout(rate=0.5)(x)
-    # Classification layer
-    output = layers.Dense(units=output_dim + 1, activation="softmax")(x)
-    # Model
-    model = keras.Model(input_spectrogram, output, name="DeepSpeech_2")
-    # Optimizer
-    opt = keras.optimizers.Adam(learning_rate=1e-4)
-    # Compile the model and return
-    model.compile(optimizer=opt, loss=CTCLoss)
+    if model_type=='2CNN+5RNN':
+        model=model_2CNN_5RNN(input_dim, output_dim,CTCLoss)
+    elif model_type=='CNN+RNN':
+        model=model_CNN_RNN(input_dim, output_dim,CTCLoss)
+    elif model_type=='3CNN':
+        model=model_CNN(input_dim, output_dim,CTCLoss)
+    else: 
+        print("error, this model does not exist")
+        exit()
+
+    
     return model
 
 model = build_model(
@@ -265,4 +230,4 @@ history = model.fit(
 
 #Saving the model to output
 
-model.save(output)
+model.save(output_path)
