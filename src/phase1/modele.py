@@ -29,7 +29,7 @@ args = vars(parser.parse_args())
 if (args['path']):
     CHEMIN_DONNEES = args['path'] 
 else:   
-    CHEMIN_DONNEES= '.src/phase1/donnees_traitees' # Dossier contenant les données pré-traitées
+    CHEMIN_DONNEES= './src/phase1/donnees_traitees' # Dossier contenant les données pré-traitées
 
 if (args['name']):
     NOM_MODELE = args['name']
