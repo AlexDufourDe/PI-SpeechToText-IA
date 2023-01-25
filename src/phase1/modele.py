@@ -22,22 +22,22 @@ parser = argparse.ArgumentParser(description="Train a custom model of speech rec
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-p", "--path",  help="Path to the folder containing the data, by default it is '.src/phase1/donnees_traitees'")
 parser.add_argument("-n","--name",help="name of the model to train, by default it is 'mel-cnn' " )
-parser.add_argument("-e","--epochs",default=1,help="Number of epochs for training, by default it is 8")
+parser.add_argument("-e","--epochs",default=1,help="Number of epochs for training, by default it is 1")
 args = vars(parser.parse_args())
 
 
 if (args['path']):
     CHEMIN_DONNEES = args['path'] 
 else:   
-    CHEMIN_DONNEES= '.src/phase1/donnees_traitees' # Dossier contenant les données pré-traitées
+    CHEMIN_DONNEES= './src/phase1/donnees_traitees' # Dossier contenant les données pré-traitées
 
 if (args['name']):
-    NOM_MODELE = args['name']
+    NOM_MODEL = args['name']
 else: 
     NOM_MODEL='mel-cnn'
 
 if (args['epochs']):
-    NB_EPOCH = args['epochs']
+    NB_EPOCH = int(args['epochs'])
 else: 
     NB_EPOCH=8
 
@@ -85,9 +85,9 @@ history = model.fit(x_train, y_train, validation_split= 0.15, epochs=NB_EPOCH)
 acc=model.evaluate(x_test, y_test)
 
 version = open("src/phase1/version_model.txt", "a")
-version.write("\n")
+version.write("\n\n")
 version.write(str(datetime.datetime.today()))
-version.write("  "+NOM_MODEL+ " entrainé sur "+CHEMIN_DONNEES+"\n")
+version.write("  "+NOM_MODEL+ " entraine sur "+CHEMIN_DONNEES+"\n")
 version.write("loss : "+str(acc[0])+", accuracy : "+str(acc[1]))
 version.write("epoch :"+ str(NB_EPOCH))
 version.close()

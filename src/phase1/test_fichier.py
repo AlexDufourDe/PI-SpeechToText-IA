@@ -49,6 +49,7 @@ if not os.path.exists(f_name):
       exit()
 
 
+
 samplerate, data = wavfile.read(f_name)
 
 
@@ -66,9 +67,11 @@ test = np.array(tfio.audio.dbscale(mel_spectrogram, top_db=80))[...,np.newaxis]
 
 
 # Prediction
-index = np.argmax(model.predict(np.array([test])))
+prediction=model.predict(np.array([test]))
+index = np.argmax(prediction)
 
 print("\n")
+print(prediction)
 print("\nLe mot retranscrit est ---> " + (MOTS[index]).upper() + " <---")
 print("Si ce n'est pas la bonne retranscription, veuillez revérifier le fichier audio, l'erreur vient probablement de "
       "l'enregistrement ")
