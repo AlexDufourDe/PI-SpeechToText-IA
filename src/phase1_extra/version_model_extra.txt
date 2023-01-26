@@ -1,5 +1,16 @@
 
-2023-01-10 15:04:03.442964  mel-cnn-enhance entrainé sur ./src/phase1_extra/donnees_traitees_extra
-loss : 1.657800555229187, accuracy : 0.8055989742279053epoch :8
-2023-01-10 15:18:51.142237  mel-cnn-enhance entrainé sur ./src/phase1_extra/donnees_traitees_extra
-loss : 0.4676646590232849, accuracy : 0.8897404074668884epoch :15
+2023-01-10 15:04:03.442964  mel-cnn-enhance entraine sur ./src/phase1_extra/donnees_traitees_extra
+loss : 1.657800555229187, accuracy : 0.8055989742279053 epoch :8
+
+2023-01-10 15:18:51.142237  mel-cnn-enhance entraine sur ./src/phase1_extra/donnees_traitees_extra
+loss : 0.4676646590232849, accuracy : 0.8897404074668884 epoch :15
+
+2023-01-25 10:30:32.202195  mel-cnn entraine sur ./src/phase1_extra/donnees_traitees_extra
+loss : 1.2332044839859009, accuracy : 0.6248044967651367 epoch :1
+
+2023-01-25 11:46:15.758346  mel-cnn-enhance-25 entraine sur ./src/phase1_extra/donnees_traitees_extra
+loss : 0.5156992673873901, accuracy : 0.8914607167243958 epoch :25
+
+2023-01-25 13:36:26.160173  mel-cnn-enhance-17 entraine sur ./src/phase1_extra/donnees_traitees_extra
+loss : 0.48956504464149475, accuracy : 0.8853612542152405 epoch :17
+ meilleure val_accuracy 0.9253798127174377 atteinte lors de l'epoch 14
