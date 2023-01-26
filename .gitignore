@@ -1,3 +1,8 @@
-./donnees_traitees
+src/phase1/donnees_traitees
+src/phase1_extra/donnees_traitees_extra
 ../../.devcontainer/
 __pycache__/
+src/phase1/version_model.txt
+src/phase1_extra/version_model_extra.txt
+src/phase1/modeles/
+
