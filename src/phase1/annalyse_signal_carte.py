@@ -9,7 +9,7 @@ import tensorflow as tf
 
 
 folder_path='./test_carte/'
-CHEMIN_MODELE = './src/phase1/modeles/mel-cnn'
+CHEMIN_MODELE = './src/phase1/modeles/mel-cnn2'
 
 MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
 
