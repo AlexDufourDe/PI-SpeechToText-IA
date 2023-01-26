@@ -25,7 +25,7 @@ Ce dataset est un ensemble données en français
 Pour telechargé les données de mozilla common voice, il suffit de lancer le script pretraitement_json. Il est necessaire que le fichier mozilla_commonvoice.json soit dans le même dossier que le script sinon il faut indiqué le chemin vers ce fichier.
 On peut le lancer avec la commande:
 ```
-python3 src/phase2/download_mozillacmt.py (CHEMIN_JSON CHEMIN_SAUVEGARDE PRETRAITEMENT)
+python3 src/phase2/download_mozillacm.py (CHEMIN_JSON CHEMIN_SAUVEGARDE PRETRAITEMENT)
 ```
 Deux dossiers par défaut vont alors etre créer : mozilla_commonvoice qui contient les audios originaux et mozilla_common_voice_pretraitee qui contient les données prétraité (si on a signifié avec pretraitement que l'on voulait enregistrer les fichier pretraité). Si un chemain de sauvegarder a étét préciser alors les données originales seront sauvergardées dans un dossier du nom indiqué et les donnée prétraitée dans le dossier CHEMIN_SAUVEGARDE+'_pretraitee'
 
@@ -55,11 +55,12 @@ Ctrl+D permet de fermer le docker.
 
 ### Entrainement du modèle
 
-Pour entrainer le modèle, on doit lancer le script train.py.  On doit préciser la langue d'entrainement. On peut également  préciser le nombre d'epoch,le repertoire dans lequel enregistrer le modeleainsi que son nom. Pour cela on utilise la commmande ( soit directement dans le terminal soit dans le terminal du docker):
+Pour entrainer le modèle, on doit lancer le script train_deepseepch_custom.py.  On peut preciser un certain nombre de paramètres. Ceux obligatoires sont le chemin vers les données, le chemin vers les meta données et le type de modele a entrainer. On peut choisir entre '2CNN+5RNN', 'CNN+RNN' et '3CNN'.   Pour cela on utilise la commmande ( soit directement dans le terminal soit dans le terminal du docker):
 ```
-python3 src/phase2/train.py  (LANGUE NB_EPOCH CHEMIN_MODELE NOM_MODELE )
+python3 src/phase2/train_deepspeech_custom.py -d CHEMIN_DATA -m CHEMIN_METADATA -mo TYPE_MODELE -o NOM_FICHER_SORTIE -e NOMBRE_EPOCHS -s VALIDATION_SPLIT 
 ```
 
+Il est possible d'utiliser --help pour avoir le detail de chaque option.
 
 
 ## Modèle et Usage
@@ -85,26 +86,16 @@ De même par défaut,le modèle est entrainé sur 8 epochs.
 
 ## Details des fichiers
 
-##### Péparation des données
-pretraitrement.py : télécharge les données voulues et effectue le prétraitement.
+##### Téléchargement des données
+download_mozillacm.py : télécharge les données voulues et effectue le prétraitement si préciser.
 
 ##### Construction du modèle
-build_model.py : construit le modele en ajoutant les différentes couches
+build_model.py : construit les différents type de modeles  en ajoutant les différentes couches
 
-callback.py: affiche un exemple de traduction d'une phrase à la fin de chaque epoch
-
-ctc_loss: renvoi la loss de l'algoritme ctc
-
-prediction.py : effectue la prediction du phrase par le modèle
-
-train.py : entraine le modele selon les paramètres spécifié par l'utilisateur
+train_deepseepch_custom.py : entraine le modele selon les paramètres spécifié par l'utilisateur
 
 version_en.txt : contient les versions du modele entrainé en anglais
 version_fr.txt :contient les versions du modele entrainé en français
 
 
-##### Test manuel du modèle
-test_vocal_extra.py : fait un enregistrement de 3s, analyse cet audio avec le modèle et renvoi le mot compris. Le signal est enregistré au format wav sous le nom "output.wav".
-
-test_fichier_extra.py: fait l'analyse d'un fichier .wav  et renvoi le mot compris.
 
