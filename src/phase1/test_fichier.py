@@ -48,15 +48,20 @@ if not os.path.exists(f_name):
       print(f"The file {f_name} does not exist")
       exit()
 
-
-samplerate, data = wavfile.read(f_name)
-
-
-# Importation du mpdèle entrainé
 model = tf.keras.models.load_model(CHEMIN_MODELE)
 
 
-scaled = np.int16(data* 32767).reshape(16000) # Remise à l'echelle de l'audio
+samplerate, data = wavfile.read(f_name)
+rms_max = 0
+debut = 0
+for i in range(len(data)-16000):
+      rms=np.mean((data[i:i+16000])**2)
+      if rms > rms_max:
+            rms_max = rms
+            debut = i
+scaled = data[debut:debut+16000]
+
+# scaled = np.int16(data* 32767).reshape(16000) # Remise à l'echelle de l'audio
 
 # Ici, on réapplique le mêmes pré-traitements que pour les données d'entraînements.
 fade = tfio.audio.fade(scaled, fade_in=1000, fade_out=2000, mode="logarithmic")
@@ -64,6 +69,7 @@ spectrogram = tfio.audio.spectrogram(fade, nfft=1024, window=1024, stride=256)
 mel_spectrogram = tfio.audio.melscale(spectrogram, rate=16000, mels=128, fmin=0, fmax=8000)
 test = np.array(tfio.audio.dbscale(mel_spectrogram, top_db=80))[...,np.newaxis]
 
+# test=np.load(f_name)[...,np.newaxis]
 
 # Prediction
 index = np.argmax(model.predict(np.array([test])))
