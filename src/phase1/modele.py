@@ -94,4 +94,4 @@ version.close()
 
 if not os.path.exists(CHEMIN_SAUVEGARDE_MODELE):
     os.makedirs(CHEMIN_SAUVEGARDE_MODELE)
-model.save(CHEMIN_SAUVEGARDE_MODELE+"/"+NOM_MODEL)
+model.save(CHEMIN_SAUVEGARDE_MODELE+"/"+NOM_MODEL+"_"+NB_EPOCH)
