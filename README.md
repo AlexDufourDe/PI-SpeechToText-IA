@@ -60,7 +60,9 @@ Si il n'y a qu'un seul mot prononcé lors de l'enregistrement, on utilise:
 python3 src/phase1/test_fichier.py -p CHEMIN_FICHIER -m CHEMIN_MODELE
 ```
 Si il y en a plusieurs:
+```
 python3 src/phase1/test_fichier_long.py  -p CHEMIN_FICHIER -m CHEMIN_MODELE
+```
 
 ## Modèle et Usage
 
