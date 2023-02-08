@@ -20,26 +20,15 @@ CHEMIN_SAUVEGARDE_MODELE = './src/phase1/modeles' # Dossier de sauvegarde des mo
 
 parser = argparse.ArgumentParser(description="Train a custom model of speech recognition on 10 words",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-p", "--path",  help="Path to the folder containing the data, by default it is '.src/phase1/donnees_traitees'")
-parser.add_argument("-n","--name",help="name of the model to train, by default it is 'mel-cnn' " )
-parser.add_argument("-e","--epochs",default=1,help="Number of epochs for training, by default it is 8")
+parser.add_argument("-p", "--path",default= './src/phase1/donnees_traitees', help="Path to the folder containing the data, by default it is '.src/phase1/donnees_traitees'")
+parser.add_argument("-n","--name",default='mel-cnn',help="name of the model to train, by default it is 'mel-cnn' " )
+parser.add_argument("-e","--epochs",default=8,help="Number of epochs for training, by default it is 8")
 args = vars(parser.parse_args())
 
+CHEMIN_DONNEES = args['path'] 
+NOM_MODELE = args['name']
+NB_EPOCH = args['epochs']
 
-if (args['path']):
-    CHEMIN_DONNEES = args['path'] 
-else:   
-    CHEMIN_DONNEES= './src/phase1/donnees_traitees' # Dossier contenant les données pré-traitées
-
-if (args['name']):
-    NOM_MODELE = args['name']
-else: 
-    NOM_MODEL='mel-cnn'
-
-if (args['epochs']):
-    NB_EPOCH = args['epochs']
-else: 
-    NB_EPOCH=8
 
 
 if not os.path.exists(CHEMIN_DONNEES):
@@ -57,14 +46,27 @@ model.add(tf.keras.layers.Conv2D(32, 3, strides=2, padding='same', activation='r
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 model.add(tf.keras.layers.BatchNormalization())
+
 model.add(tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 model.add(tf.keras.layers.BatchNormalization())
+
+model.add(tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.BatchNormalization())
+
+model.add(tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.BatchNormalization())
+
 model.add(tf.keras.layers.Conv2D(128, 3, padding='same', activation='relu'))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 model.add(tf.keras.layers.BatchNormalization())
+
 model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(256, activation='relu'))
 model.add(tf.keras.layers.BatchNormalization())

@@ -3,8 +3,7 @@ import numpy as np
 import tensorflow_io as tfio
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
-import os 
-from scipy.io.wavfile import write
+import os
 import tensorflow as tf
 
 
@@ -13,23 +12,29 @@ CHEMIN_MODELE = './src/phase1/modeles/mel-cnn2'
 
 MOTS = ['yes','no','up','down','right','left','stop','go','on','off']
 
+nb_fichier=2
 
 model = tf.keras.models.load_model(CHEMIN_MODELE)
 i=1
+count=0
+ind=0
+
+
+acc=[0 for i in range(nb_fichier+1)]
 for path, dirs, files in os.walk(folder_path):
     k=len(files)
     c=1
     for filename in files:
         
-        plt.subplot(k,1,i)  
+        plt.subplot(nb_fichier,1,i)  
         ### fichier.txt
         taille=(63,128)
-        ext=filename.split('.')[1]
-        if ext=='TXT':
+        ext=filename.split('.')
+        if len(ext)==1:
             with open(folder_path+filename, 'rb') as f:
                 data = np.fromfile(f, dtype='<f')
-                array = np.reshape(data,(128,63))
-            test=np.transpose(array)
+                array = np.reshape(data,(63,128))
+            test=array
         else:
             ### fichier .wav
             samplerate, data = wavfile.read(folder_path+filename)
@@ -52,12 +57,38 @@ for path, dirs, files in os.walk(folder_path):
 
 
         index = np.argmax(model.predict(np.array([test])))
-        print(f"\nLe mot retranscrit par {filename} est ---> {(MOTS[index]).upper()} <---")   
+        print(f"\nLe mot retranscrit par {filename} est ---> {(MOTS[index])} <---")   
         plt.imshow(test)
         plt.ylabel("Time")
-        plt.xlabel("Hz")
+        plt.xlabel(filename)
         plt.colorbar()
 
-        i+=1
-plt.subplots_adjust(wspace = 0.5,hspace=0.5)
-plt.show()
+
+        if MOTS[index]==MOTS[ind]:
+            acc[i]+=1
+
+        
+        
+        if i==nb_fichier:
+            i=1
+            print(f"\nLe mot attendu est {MOTS[ind]}\n")
+            print('###############################################################')
+            plt.subplots_adjust(wspace = 0.5,hspace=0.5)
+            plt.show()
+
+            
+        else:
+            i+=1
+        
+        count+=1
+        if (count==nb_fichier*4):
+            ind+=1
+            count=0
+
+print(f"accuracies finales:")
+print(f"accuracy .wav : {2*acc[1]/k}")
+for i in range(2,nb_fichier+1):
+    print(f"accuracy fichier {i} : {2*acc[i]/k}")
+        
+       
+
