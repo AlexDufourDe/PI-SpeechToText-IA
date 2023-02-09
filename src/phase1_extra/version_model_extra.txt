@@ -14,3 +14,7 @@ loss : 0.5156992673873901, accuracy : 0.8914607167243958 epoch :25
 2023-01-25 13:36:26.160173  mel-cnn-enhance-17 entraine sur ./src/phase1_extra/donnees_traitees_extra
 loss : 0.48956504464149475, accuracy : 0.8853612542152405 epoch :17
  meilleure val_accuracy 0.9253798127174377 atteinte lors de l'epoch 14
+
+2023-02-09 15:55:52.906888  mel-cnn-enhance5 entraine sur ./src/phase1_extra/donnees_traitees_extra
+loss : 0.4186975061893463, accuracy : 0.909915566444397 epoch :18
+ meilleure val_accuracy 0.9298480749130249 atteinte lors de l'epoch 14

@@ -24,26 +24,15 @@ CHEMIN_SAUVEGARDE_MODELE = './src/phase1_extra/modeles_extra' # Dossier de sauve
 
 parser = argparse.ArgumentParser(description="Test the transcription of a wav file with a CNN model",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-p", "--path",  help="Path to the folder containing the data, the default value is './src/phase1_extra/donnees_traitees_extra'")
-parser.add_argument("-n","--name",help="name of the model to train, by default it is 'mel-cnn-enhance' " )
-parser.add_argument("-e","--epochs",default=1,help="Number of epochs for training, by default it is 1")
+parser.add_argument("-p", "--path", default='./src/phase1_extra/donnees_traitees_extra', help="Path to the folder containing the data, the default value is './src/phase1_extra/donnees_traitees_extra'")
+parser.add_argument("-n","--name",default='mel-cnn-enhance',help="name of the model to train, by default it is 'mel-cnn-enhance' " )
+parser.add_argument("-e","--epochs",default=8,help="Number of epochs for training, by default it is 1")
 
 args = vars(parser.parse_args())
+CHEMIN_DONNEES = args['path'] 
+NOM_MODEL = args['name']
+NB_EPOCH = int(args['epochs'])
 
-if (args['path']):
-    CHEMIN_DONNEES = args['path'] 
-else:   
-    CHEMIN_DONNEES= './src/phase1_extra/donnees_traitees_extra' # Dossier contenant les données pré-traitées
-
-if (args['name']):
-    NOM_MODEL = args['name']
-else: 
-    NOM_MODEL='mel-cnn-enhance'
-
-if (args['epochs']):
-    NB_EPOCH = int(args['epochs'])
-else: 
-    NB_EPOCH=1
 
 print(f"nb_epoch : {type(NB_EPOCH)} {NB_EPOCH}\nNom model : {NOM_MODEL}\nChemin donnes : {CHEMIN_DONNEES}")
 
@@ -61,14 +50,27 @@ model.add(tf.keras.layers.Conv2D(32, 3, strides=2, padding='same', activation='r
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 model.add(tf.keras.layers.BatchNormalization())
+
 model.add(tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 model.add(tf.keras.layers.BatchNormalization())
+
+model.add(tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.BatchNormalization())
+
+model.add(tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'))
+model.add(tf.keras.layers.BatchNormalization())
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.BatchNormalization())
+
 model.add(tf.keras.layers.Conv2D(128, 3, padding='same', activation='relu'))
 model.add(tf.keras.layers.BatchNormalization())
 model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
 model.add(tf.keras.layers.BatchNormalization())
+
 model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(256, activation='relu'))
 model.add(tf.keras.layers.BatchNormalization())
@@ -101,13 +103,15 @@ version.write(" epoch :"+ str(NB_EPOCH))
 version.write("\n meilleure val_accuracy "+ str(max)+" atteinte lors de l'epoch "+str(ind))
 version.close()
 
+if not os.path.exists('./graphique_modeles_extra/'):
+    os.makedirs('./graphique_modeles_extra/')
 
 plt.figure()
 plt.plot(h.history['accuracy'], label="loss")
 plt.plot(h.history['val_accuracy'], label="val_loss")
 plt.plot([acc[1] for i in range(len(h.history['accuracy']))],label='final accuracy')
 plt.legend()
-plt.show()
+plt.savefig('./graphique_modeles_extra/'+NOM_MODEL+'_accuracy.png')
 
 # Sauvegarde du modèle entraîné (decommenter la ligne si le modèle est satisfaisant)
 if not os.path.exists(CHEMIN_SAUVEGARDE_MODELE):
