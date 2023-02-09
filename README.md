@@ -75,7 +75,7 @@ Le modèle utilisé est un modèle CNN composé de 3 couches convolutives et de 
 
 ### Valeur par défaut
 Nous avons définit certaines valeurs par défaut.
-En effet, dans cette partie nous utilisons que 10 mots de commande : 'yes', 'no', 'up', 'down', 'right', 'left', 'stop', 'go', 'on' et 'off'.
+En effet, dans cette partie nous utilisons que 13 mots de commande : 'Sheila','Zero','Go','Bed','Bird','Stop','Marvin','Yes','Four','House','Off','Tree','Wow','Happy','Nine','Up','Three','Right','Five','Two','One','Left','Eight','Six','Down','Dog','No','Cat','On' et'Seven''.
 
 Les données prétraitée ont une durrée d'enregistrement de 1s et la fréquence d'chantillonnage est de 16 000 HZ.
 
