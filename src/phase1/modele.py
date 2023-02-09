@@ -11,8 +11,11 @@ import tensorflow as tf
 import os
 import datetime
 import sys
+import matplotlib.pyplot as plt
 
+sys.path.append('./traitement')
 from pretraitement import download_data 
+
 
 DATA="hub://activeloop/speech-commands-train"
 NB_MOTS = 10 # Changer en fonction du nombre de mots du corpus
@@ -26,8 +29,8 @@ parser.add_argument("-e","--epochs",default=8,help="Number of epochs for trainin
 args = vars(parser.parse_args())
 
 CHEMIN_DONNEES = args['path'] 
-NOM_MODELE = args['name']
-NB_EPOCH = args['epochs']
+NOM_MODEL = args['name']
+NB_EPOCH = int(args['epochs'])
 
 
 
@@ -93,6 +96,17 @@ version.write("  "+NOM_MODEL+ " entrainé sur "+CHEMIN_DONNEES+"\n")
 version.write("loss : "+str(acc[0])+", accuracy : "+str(acc[1]))
 version.write("epoch :"+ str(NB_EPOCH))
 version.close()
+
+
+if not os.path.exists('./graphique_modeles'):
+        os.makedirs('./graphique_modeles')
+plt.figure()
+plt.plot(history.history['accuracy'], label="accuracy")
+plt.plot(history.history['val_accuracy'], label="val_accuracy")
+plt.title('Accuracy pour reseau avec 5 couches convolutives')
+plt.legend()
+plt.savefig('./graphique_modeles/'+NOM_MODEL+'_accuracy.png')
+
 
 if not os.path.exists(CHEMIN_SAUVEGARDE_MODELE):
     os.makedirs(CHEMIN_SAUVEGARDE_MODELE)
