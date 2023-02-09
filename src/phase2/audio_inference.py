@@ -46,7 +46,7 @@ print("l'enregistrement est sauvegardé dans un fichier 'output.wav' pour vérif
 write('output.wav', fs, enregistrement)
 
 # Préparation de l'enregistrement à passer à l'entrée du modèle. Nous remarquons qu'il n'y a pas de calcul e spectrogramme
-input_values = processor(audio.reshape(160000), return_tensors="pt", padding="longest").input_values
+input_values = processor(audio, return_tensors="pt", padding="longest").input_values
 
 # Appel du modèle
 logits = model(input_values).logits
