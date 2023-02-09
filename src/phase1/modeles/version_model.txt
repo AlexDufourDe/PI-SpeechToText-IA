@@ -1,0 +1,40 @@
+VERSION MODELE:
+
+2022-11-10 15:39:27.964521  mel-cnn entraine sur ./donnees_traitees
+loss :0.3527715504169464, accuracy : 0.8919299244880676
+epoch : 8
+
+2023-02-09 09:22:27.198484  mel-1cnn entraine sur ./src/phase1/donnees_traitees
+loss : 3.2172136306762695, accuracy : 0.5728808045387268 epoch :15
+
+2023-02-09 10:08:43.676168  mel-2cnn entraine sur ./src/phase1/donnees_traitees
+loss : 3.440706968307495, accuracy : 0.5398811101913452 epoch :15
+
+2023-02-09 10:54:12.981357  mel-3cnn entraine sur ./src/phase1/donnees_traitees
+loss : 0.6511871218681335, accuracy : 0.8345323801040649 epoch :15
+
+2023-02-09 11:40:51.944775  mel-4cnn entraine sur ./src/phase1/donnees_traitees
+loss : 0.3371167778968811, accuracy : 0.908664345741272 epoch :15
+
+2023-02-09 12:25:51.841213  mel-cnn-5 entrainï¿½ sur ./src/phase1/donnees_traitees
+loss : 0.34418123960494995, accuracy : 0.9189865589141846epoch :13
+2023-02-09 14:03:36.898920  mel-cnn-5 entrainé sur ./src/phase1/donnees_traitees
+loss : 0.32649847865104675, accuracy : 0.9213324785232544epoch :13
+2023-02-09 14:12:53.844696  mel-cnn-5 entrainé sur ./src/phase1/donnees_traitees
+loss : 0.8640482425689697, accuracy : 0.8046606183052063epoch :13
+2023-02-09 14:27:12.031142  mel-2cnn entraine sur ./src/phase1/donnees_traitees
+loss : 0.8704932928085327, accuracy : 0.7805755138397217 epoch :13
+
+2023-02-09 14:36:23.546377  mel-3cnn entraine sur ./src/phase1/donnees_traitees
+loss : 0.42620888352394104, accuracy : 0.8980293869972229 epoch :13
+
+2023-02-09 14:45:07.890085  mel-4cnn entraine sur ./src/phase1/donnees_traitees
+loss : 0.46632200479507446, accuracy : 0.8894276022911072 epoch :13
+
+2023-02-09 14:53:34.803180  mel-5cnn entraine sur ./src/phase1/donnees_traitees
+loss : 0.3517672121524811, accuracy : 0.9172661900520325 epoch :13
+
+2023-02-09 15:05:04.329123  mel-cnn-5 entrainé sur ./src/phase1/donnees_traitees
+loss : 0.9626783132553101, accuracy : 0.7356896996498108epoch :13
+2023-02-09 15:16:42.108337  mel-cnn-5 entrainé sur ./src/phase1/donnees_traitees
+loss : 0.40042105317115784, accuracy : 0.9031904935836792epoch :18
