@@ -49,6 +49,28 @@ python3 src/phase1/modele.py  -n NOM_MODELE -e NOMBRE_EPOCH -p REPERTOIRE_DONNEE
 ```
 
 ### Test 
+
+#### Spectrogramme
+On peut tester les spectogrammes produit par la carte afin de s'assurer de la ressemblance avec le spectrogramme utilisé pendant l'entrainement. Pour celon on dispose de plusieurs outils.
+
+Tout d'abord un fichier qui va afficher le spectrogramme fait par la carte enregitrer en tant que fichier binaire. On doit donc lui passer en paramètre le chemin du fichier. On peut egalement préciser le mot représenté, si on souhaite l'enregistrer et le nom du fichier à sauvegarder
+```
+python3 test/lecture_spectrogramme.py -p CHEMIN_FICHIER -w MOT -s SAVE -n NAME
+```
+
+On a ensuite un fichier qui fait l'opération inverse c'est a dire qu'il enregistre un spectrogramme sous forme de fichier binaire. Il faut juste lui passer en paramètre le chemin du fichier
+```
+python3 test/ecriture_spectrogramme.py -p CHEMIN_FICHIER -w MOT -s SAVE -n NAME
+```
+
+On a également un fichier qui compare deux spectogrammes, un fait par la carte d'evaluation , l'autre à l'aide d'un module de tensorflow. Il fait de plus la prediction mots représenté par les spectogrammes. 
+Il prend différents paramètres en entrée tel que les chemins des deux fichiers, le modèle a utilisé. On peut aussi precisé le mot qui doit etre predit, si on souhaite afficher le graphique, si on veut l'enregistrer et le nom du fichier sauvegarder le mot 
+
+```
+python3 .\test\comparaison_spectogramme.py  -c CHEMIN_SPECTOGRAMME_CARTE -a CHEMAIN_WAV -w MOT -d DISPLAY -s SAVE -n NOM
+```
+
+#### Modèle
 Pour tester le modèle, on peut lancer le script test_vocal qui va effectuer un enregistrement pendant 3 seconde et renvoyer le mots compris par le modèle.
 ```
 python3 src/phase1/test_vocal.py
